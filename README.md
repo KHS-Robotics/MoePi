@@ -37,4 +37,4 @@ uninstall - completely removes MoePi service from systemctl
 ```
 
 ## Generating .classpath
-Run `./gradlew eclipse`.
+Run `./gradlew eclipse`
