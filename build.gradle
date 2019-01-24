@@ -1,0 +1,110 @@
+plugins {
+  // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building an application
+    id 'application'
+
+    // Eclipse
+    id 'eclipse'
+
+    // Shadow JAR
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+}
+
+def projectName = 'MoePi'
+mainClassName = 'com.moe365.moepi.Main'
+
+apply from: 'dependencies.gradle'
+
+repositories {
+    mavenCentral()
+    maven {
+      url "http://first.wpi.edu/FRC/roborio/maven/release"
+    }
+    maven {
+      url "https://oss.sonatype.org/content/groups/public"
+    }
+    flatDir {
+      dirs 'libs', 'libs/jetty'
+    }
+}
+
+dependencies {
+  compile 'org.opencv:opencv-java:3.1.0'
+  compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
+  compile name: 'v4l4j'
+  compile name: 'jetty-http-9.4.1.v20170120'
+  compile name: 'jetty-io-9.4.1.v20170120'
+  compile name: 'jetty-security-9.4.1.v20170120'
+  compile name: 'jetty-server-9.4.1.v20170120'
+  compile name: 'jetty-servlet-9.4.1.v20170120'
+  compile name: 'jetty-util-9.4.1.v20170120'
+  compile name: 'servlet-api-3.1'
+  compile name: 'websocket-api-9.4.1.v20170120'
+  compile name: 'websocket-common-9.4.1.v20170120'
+  compile name: 'websocket-server-9.4.1.v20170120'
+  compile name: 'websocket-servlet-9.4.1.v20170120'
+}
+
+jar {
+  baseName = projectName
+}
+
+shadowJar {
+  baseName = projectName
+}
+
+distributions {
+  main {
+    baseName = projectName
+    contents {
+      from (nativesLocation) {
+        exclude 'META-INF'
+        exclude '**/MANIFEST.MF'
+        into 'bin/'
+      }
+    }
+  }
+}
+
+def outputDirectory = file("${rootDir}/output")
+
+task writeExecuteScript() {
+  dependsOn jar
+  doLast {
+    def runFile = new File("${buildDir}/run${projectName}")
+    runFile.setExecutable true
+    runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
+  }
+}
+
+task copyToOutput(type: Copy) {
+  dependsOn shadowJar
+  dependsOn copyV4l4J
+  dependsOn unzipOpenCv
+  dependsOn writeExecuteScript
+  destinationDir = outputDirectory
+  from (file(shadowJar.archivePath)) {
+  }
+  from (nativesLocation) {
+    exclude 'META-INF'
+    exclude '**/MANIFEST.MF'
+  }
+  from (v4l4jLocation) {
+  }
+  from (file("${buildDir}/run${projectName}")) {
+  }
+}
+
+sourceSets.main.java.srcDirs = ['src']
+
+applicationDefaultJvmArgs = ["-Djava.library.path=${nativesLocation}"]
+
+build.dependsOn copyToOutput
+run.dependsOn copyV4l4J
+run.dependsOn unzipOpenCv
+
+clean {
+    delete outputDirectory
+}

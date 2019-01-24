@@ -1,26 +1,40 @@
-<table><tr><th><h1>This repo is archived & made public for future use and inspiration. If you want to make changes to the code, please make a fork on GitHub.</h1>
-<br/>
-<h6>If you end up doing something cool with this code, please <a href="moe365.org">contact us.</a></h6></th></tr></table>
-# MOE 365 FRC Stronghold Raspberry Pi Code
-<table><tr><th colspan=2>Stronghold 2016 Code</th></tr><tr><td><a href="https://github.com/MOERobotics/2016Stronghold-CaMOElot">RoboRio</a></td><td>Raspberry Pi</td></tr></table>
-Raspberry Pi code for 2016 FIRST FRC Stronghold challenge.
+# MoePi
+Vision software for offboard vision processing using a Raspberry Pi 3 using Java utilizing OpenCV, V4L4J, and Pi4J over UDP.
 
-# Details
-The program is written in a heavily modular fashion, where (almost?) every segment of code can be disabled at runtime. This modularity is advantageous at competitions, as allows massive changes in the system with no or minimal changes to the code. In fact, we were able to use GRIP to detect the goal (as a fallback, in case the head referees decided that the flashing LED was against the rules), instead of the normal image processing module, by only changing a few command line flags. In spite of this model, the program is by no means fragmented, and each module is deeply integrated with multiple others.
+## Big Thanks to MOE 365!
+Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.
 
-## Image Capturing
-To capture images from a variety of webcams, we use [v4l4j](/mailmindlin/v4l4j). With this library, we are able to not only recieve frames from the cameras, but also control the settings, to better process images.
+## Features and Technique
+See [this](https://github.com/MOERobotics/stronghold-pi-2016/blob/master/README.md) README by MOE for specifics on what the code features and how the image processing works.
 
-### LED Control
-More of a sub-module, MoePi uses the [Pi4J library](pi4j.com) to control a LED. While this task may seem simple, which it is, it plays a major part in the image processing, synchronized exactly with the camera.
+## What You Need
+1. Raspberry Pi 3 Model B/B+ running Raspbian Stretch
+2. Internet Connection for the Pi (initially, for `install_dependencies.sh` and the first `./gradlew build`)
+3. USB Camera (tested with [Microsoft LifeCam HD-3000](https://www.amazon.com/Microsoft-3364820-LifeCam-HD-3000/dp/B008ZVRAQS))
+4. [LED Halo (Green, tested with 60mm)](https://www.superbrightleds.com/moreinfo/led-halo-rings/led-halo-angel-eye-headlight-accent-lights/49/307/)
+5. [MOSFET](https://www.amazon.com/WINGONEER-IRF520-MOSFET-Driver-Module/dp/B06XHH1TQM) to control the LED Halo.
 
-## HTTP Server
-A NIO-based HTTP server, it runs with little latency, while still serving with high bandwith and providing many featues. Not only offering a live MJPEG stream of the webcam, a HTML5 interface offers controls to the drivers drivers to draw overlays on the image (such as crosshairs; using the client's GPU) and even control the camera's settings.
+## Installing The Necessary Dependencies
+On the Pi, run the install dependencies shell script file via `./install_dependencies.sh`. This will install WiringPi to control the Pi's GPIO pins (e.g., the LED Halo) and V4L4J to control the camera.
 
-## Image processing
-Our image processor works by not looking for places in an image that are lit up, but by flashing a light at the retroreflective tape, and measuring the difference between two frames - one with the flash on, and one with it off. Through this technique, we are able to provide accurate results with low latency and error rates.
+## Building and Running on the Pi
+If you are on the pi, you can use `./gradlew run` to run the code directly. You can also run `./gradlew build` to run a build. When doing this, the output files will be placed into `output/`. From there, you can run the shell script via `chmod +x runMoePi` then `./runMoePi`, this will start MoePi with the default configuration values. To see what values you can change/pass in, run `java -Djava.library.path=. -jar MoePi-all.jar --help` within `output/`.
 
-## Data Broadcasting
-To keep latency and bandwidth low, we developed a custom UDP packet structure to communicate to the RoboRio.
+## Viewing the Camera Feed
+When running the code in the `output/` folder via `./runMoePi` after building the project via `./gradlew build`, you can visit `your-pi's-ip-address:5800` in a web browser to view the camera feed from the Pi.
 
-<sup><sub>All rights reserved &copy; 2016 MOE 365 Robotics</sub></sup>
+## Setting up MoePi to Run on Boot
+For MoePi to run on boot, it must be built under `/home/pi/MoePi` with the built `output/` directory via `./gradlew build` (unless you create your own service file and configure it for systemctl yourself). You can then use the script `service_manager.sh`:
+```
+./service_manager.sh argument
+
+install - installs MoePi service and enables start on boot
+start - starts MoePi via systemctl (service must be installed)
+stop - stops MoePi via systemctl (service must be installed)
+enable - enables MoePi to start on boot (service must be installed)
+disable - disables MoePi from starting on boot (service must be installed)
+uninstall - completely removes MoePi service from systemctl
+```
+
+## Working on this project in Eclipse
+Enter the root of the project in terminal. Run `./gradlew eclipse`. This creates needed `.classpath` and `.project` files for Eclipse. Next, import the project into Eclipse. Open Eclipse then from the menu select File > Import > Gradle > Gradle Project > Next > Browse and Enter the Project Location > Finish.

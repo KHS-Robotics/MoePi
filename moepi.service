@@ -1,0 +1,14 @@
+[Unit]
+Description=MoePi
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/java -Djava.library.path=/home/pi/MoePi/output -jar MoePi-all.jar
+WorkingDirectory=/home/pi/MoePi/output
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

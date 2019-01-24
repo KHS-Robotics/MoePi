@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="utils.js"></script>
+		<script src="./system.js"></script>
+		<script>
+			SystemJS.config({baseURL: './js',defaultJSExtensions:true,map:{decoder:'/decoder.js'}});
+			var modules = ['events.js','packet.js','channels.js','websock.js','video.js','h264.js'];
+			Promise.all(modules.map(v=>SystemJS.import(v)))
+				.then(x=>(SystemJS.import('init.js')))
+				.then(ex=>(new ex.StageManager({canvas:document.getElementById('main')})).ready())
+				.then(sm=>(window.sm=sm,sm.start()));
+		</script>
+		<style>
+			#main {
+				position: fixed;
+				top:0;
+				left:0;
+				right:0;
+				bottom:0;
+				width: 100%;
+				height: 100%;
+			}
+			body {
+				backgroundColor: red;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="main">
+			Your browser doesn't appear to support HTML5. Please try a newer one.
+		</canvas>
+	</body>
+</html>
