@@ -197,3 +197,5 @@ gradle-app.setting
 #VSCode
 .vscode/
 output/
+
+.classpath

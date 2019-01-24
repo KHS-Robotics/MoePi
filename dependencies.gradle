@@ -1,7 +1,3 @@
-ext.ntcoreDep = { ->
-    return "edu.wpi.first.wpilib.networktables.java:NetworkTables:+:arm-raspbian"
-}
-
 ext.getOpenCvPlatformPackage = { ->
   return "linux-arm-raspbian"
 }
