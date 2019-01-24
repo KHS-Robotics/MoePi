@@ -36,5 +36,5 @@ disable - disables MoePi from starting on boot (service must be installed)
 uninstall - completely removes MoePi service from systemctl
 ```
 
-## Working on this project in Eclipse
-Enter the root of the project in terminal. Run `./gradlew eclipse`. This creates needed `.classpath` and `.project` files for Eclipse. Next, import the project into Eclipse. Open Eclipse then from the menu select File > Import > Gradle > Gradle Project > Next > Browse and Enter the Project Location > Finish.
+## Generating .classpath
+Run `./gradlew eclipse`.
