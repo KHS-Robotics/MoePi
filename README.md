@@ -5,7 +5,7 @@ Vision software for offboard vision processing using a Raspberry Pi 3 using Java
 Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.
 
 ## Features and Technique
-See [this](https://github.com/MOERobotics/stronghold-pi-2016/blob/master/README.md) README by MOE for specifics on what the code features and how the image processing works.
+See [this README](https://github.com/MOERobotics/stronghold-pi-2016/blob/master/README.md) by MOE for specifics on what the code features and how the image processing works.
 
 ## What You Need
 1. Raspberry Pi 3 Model B/B+ running Raspbian Stretch
