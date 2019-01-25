@@ -36,5 +36,5 @@ disable - disables MoePi from starting on boot (service must be installed)
 uninstall - completely removes MoePi service from systemctl
 ```
 
-## Generating .classpath
+## Generating the .classpath for your IDE/Editor
 Run `./gradlew eclipse`
