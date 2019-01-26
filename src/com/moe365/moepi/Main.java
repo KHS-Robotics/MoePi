@@ -426,7 +426,7 @@ public class Main {
 			return null;
 		}
 
-		System.out.println("Starting Image Processer...");
+		System.out.println("Starting Image Processor...");
 
 		final int width = args.getOrDefault("--width", DEFAULT_WIDTH);
 		final int height = args.getOrDefault("--height", DEFAULT_HEIGHT);
