@@ -170,9 +170,6 @@ public abstract class AbstractImageProcessor<R> implements Runnable, BiFunction<
 						throw new IllegalStateException();
 				}
 			}
-		// } catch (InterruptedException e) {
-		// 	e.printStackTrace();
-		// 	return;
 		} catch (Exception e) {
 			//be sure to print any/all exceptions
 			e.printStackTrace();
