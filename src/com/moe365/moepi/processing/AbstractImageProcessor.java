@@ -140,8 +140,7 @@ public abstract class AbstractImageProcessor<R> implements Runnable, BiFunction<
 		try {
 			while (!Thread.interrupted()) {
 				while (frameOff.get() == null || frameOn.get() == null) {
-					Thread.yield();//TODO test if this is correct
-					Thread.sleep(100);//TODO remove this if yield works?
+					Thread.yield();
 				}
 				
 				//Attempt to lock image writes
@@ -171,9 +170,9 @@ public abstract class AbstractImageProcessor<R> implements Runnable, BiFunction<
 						throw new IllegalStateException();
 				}
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return;
+		// } catch (InterruptedException e) {
+		// 	e.printStackTrace();
+		// 	return;
 		} catch (Exception e) {
 			//be sure to print any/all exceptions
 			e.printStackTrace();
