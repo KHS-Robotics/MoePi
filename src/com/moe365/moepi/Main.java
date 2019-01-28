@@ -589,7 +589,7 @@ public class Main {
 			System.out.println("Found rectangles " + rectangles);
 			
 			Graphics2D g = out.createGraphics();
-			int i = 0;
+			int i = -1;
 			for (PreciseRectangle rect : rectangles) {
 				if(i == colors.size()) {
 					System.out.println("WARNING: Ran out of colors since more than six targets were detected! Only drew the first six.");
