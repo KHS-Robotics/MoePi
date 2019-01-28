@@ -573,7 +573,7 @@ public class Main {
 		final String saveDir = args.getOrDefault("--save-dir", "img");
 
 		int numImages = 0;
-		List<Color> colors = Arrays.asList(Color.RED, Color.BLUE, Color.GREEN);
+		List<Color> colors = Arrays.asList(Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK);
 		while (true) {
 			File onImgFile = new File(dir.getAbsolutePath(), "on" + numImages + ".png");
 			File offImgFile = new File(dir.getAbsolutePath(), "off" + numImages + ".png");
@@ -591,7 +591,13 @@ public class Main {
 			Graphics2D g = out.createGraphics();
 			int i = 0;
 			for (PreciseRectangle rect : rectangles) {
-				g.setColor(colors.get(i++));
+				if(i == colors.size()) {
+					System.out.println("WARNING: Ran out of colors since more than six targets were detected! Only drew the first six.");
+					break;
+				}
+
+				i++;
+				g.setColor(colors.get(i));
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
 			}
 			g.dispose();
