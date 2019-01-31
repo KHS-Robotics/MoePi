@@ -165,7 +165,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 //		System.out.println("T: " + (end - start) );
 		
 		// TODO: process for rejection
-		//List<PreciseRectangle> rectangles = processBoxes(boxes, processed);
+		// List<PreciseRectangle> rectangles = processBoxes(boxes, processed);
 		List<PreciseRectangle> rectangles = boxes;
 		
 		//sort the rectangles by area
@@ -218,61 +218,16 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			final int yMax = (int) Math.ceil(box.getHeight() / 6) + yStart;
 			final int xMax = (int) Math.ceil(box.getWidth()) + xStart;
 			
-			boolean didDecrease = false, hadNoChange  = false, didIncrease = false, reject = false;
-			double count = 0, current = -1, last = -1;
-			yLoop: for(int y = yStart; y < yMax; y++) {
-				boolean foundLitInRow = false;
+			double count = 0, current = -1;
+			for(int y = yStart; y < yMax; y++) {
 				for(int x = xStart; x < xMax; x++) {
 					if(processedImg.test(x, y)) {
-						foundLitInRow = true;
 						current = count / box.getWidth();
+						System.out.print(current + " ");
 						break;
 					}
 					count++;
 				}
-				if(foundLitInRow && last != -1) {
-					final double difference = current - last;
-
-					if(Math.abs(difference) < 0.001) {
-						hadNoChange = true;
-					}
-					else if(difference > 0) {
-						didIncrease = true;
-					}
-					else if(difference < 0) {
-						didDecrease = true;
-					}
-
-					// sloping right when never sloped left
-					if(didIncrease && !didDecrease) {
-						reject = true;
-						break yLoop;
-					}
-					// sloping right when never at zero
-					else if(hadNoChange && !didDecrease) {
-						reject = true;
-						break yLoop;
-					}
-				}
-				last = current;
-				foundLitInRow = false;
-				count = 0;
-			}
-
-			// it's a left, always decreasing
-			if(!reject && didDecrease && !didIncrease && !hadNoChange) {
-				System.out.println("LEFT");
-			}
-
-			// it's a right, decreasing then had no change or started increasing or both
-			if(!reject && didDecrease && (hadNoChange || didIncrease)) {
-				System.out.println("RIGHT");
-			}
-
-			if(!reject) {
-				retval.add(box);
-			} else {
-				System.out.println("REJECT");
 			}
 		}
 
