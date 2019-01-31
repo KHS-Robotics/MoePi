@@ -589,16 +589,19 @@ public class Main {
 			System.out.println("Found rectangles " + rectangles);
 			
 			Graphics2D g = out.createGraphics();
-			int i = -1;
+			int i = 0; // color index
 			for (PreciseRectangle rect : rectangles) {
 				if(i == colors.size()) {
 					System.out.println("WARNING: Ran out of colors since more than six targets were detected! Only drew the first six.");
 					break;
 				}
 
-				i++;
+				// draw box with a new color
 				g.setColor(colors.get(i));
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
+
+				// increment color index
+				i++;
 			}
 			g.dispose();
 
