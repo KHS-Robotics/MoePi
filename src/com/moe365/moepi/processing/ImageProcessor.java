@@ -212,23 +212,32 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			final PreciseRectangle box = boxes.get(boxIndex);
 			System.out.println("BOX " + boxIndex);
 			System.out.println(box);
+			if(box.getWidth() > box.getHeight()) {
+				System.out.println("W > H");
+				continue;
+			}
 
-			final int yStart = (int) Math.ceil(box.getY()) + 1;
+			final int yStart = (int) Math.ceil(box.getY() + (box.getHeight() / 2.0));
 			final int xStart = (int) Math.ceil(box.getX()) + 1;
-			final int yMax = (int) Math.ceil(box.getHeight() / 6) + yStart;
+			final int yMax = (int) Math.ceil(box.getHeight() / 4.0) + yStart;
 			final int xMax = (int) Math.ceil(box.getWidth()) + xStart;
 			
-			double count = 0, current = -1;
+			List<Integer> xs = new ArrayList<>(yMax - yStart);
+			int currentCount = 0;
 			for(int y = yStart; y < yMax; y++) {
 				for(int x = xStart; x < xMax; x++) {
 					if(processedImg.test(x, y)) {
-						current = count / box.getWidth();
-						System.out.print(current + " ");
+						//System.out.println(currentCount);
 						break;
 					}
-					count++;
+					currentCount++;
 				}
+
+				xs.add(currentCount);
+				currentCount = 0;
 			}
+
+			System.out.println(xs);
 		}
 
 		return retval;
