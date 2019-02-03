@@ -165,7 +165,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 //		System.out.println("T: " + (end - start) );
 		
 		// TODO: process for rejection
-		// List<PreciseRectangle> rectangles = processBoxes(boxes, processed);
+		// List<PreciseRectangle> rectangles = processBoxesDestinationDeepSpace(boxes, processed);
 		List<PreciseRectangle> rectangles = boxes;
 		
 		//sort the rectangles by area
@@ -205,7 +205,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 	 * TODO: rejection math for bounding boxes
 	 * @return boxes after going through rejection math
 	 */
-	private List<PreciseRectangle> processBoxes(List<PreciseRectangle> boxes, BinaryImage processedImg) {
+	private List<PreciseRectangle> processBoxesDestinationDeepSpace(List<PreciseRectangle> boxes, BinaryImage processedImg) {
 		List<PreciseRectangle> retval = new ArrayList<>();
 
 		for(int boxIndex = 0; boxIndex < boxes.size(); boxIndex++) {
@@ -217,28 +217,102 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 				continue;
 			}
 
-			final int yStart = (int) Math.ceil(box.getY() + (box.getHeight() / 2.0));
-			final int xStart = (int) Math.ceil(box.getX()) + 1;
+			final int yStart = (int) Math.ceil(box.getY()) + 1;
+			final int xStart = (int) Math.ceil(box.getX());
 			final int yMax = (int) Math.ceil(box.getHeight() / 4.0) + yStart;
 			final int xMax = (int) Math.ceil(box.getWidth()) + xStart;
 			
-			List<Integer> xs = new ArrayList<>(yMax - yStart);
-			int currentCount = 0;
+			int leftScore = 0, rightScore = 0, boxScore = 0;
+			boolean hitTrue = false, rejectedInLoop = false;
+			List<Integer> xs = new ArrayList<>(yMax - yStart), xPrimes = new ArrayList<>(yMax - yStart);
+			int currentFirstDerivative = Integer.MAX_VALUE, lastFirstDerivative = Integer.MAX_VALUE;
+			int currentCount = 0, lastCount = Integer.MAX_VALUE;
 			for(int y = yStart; y < yMax; y++) {
 				for(int x = xStart; x < xMax; x++) {
 					if(processedImg.test(x, y)) {
 						//System.out.println(currentCount);
+						hitTrue = true;
 						break;
 					}
 					currentCount++;
 				}
 
-				xs.add(currentCount);
+				if(hitTrue) {
+					xs.add(currentCount);
+				}
+
+				if(hitTrue && lastCount != Integer.MAX_VALUE) {
+					currentFirstDerivative = currentCount - lastCount;
+					xPrimes.add(currentFirstDerivative);
+
+					if(currentFirstDerivative == 0 && lastFirstDerivative == 0) {
+						boxScore++;
+					}
+					else if(currentFirstDerivative == -1) {
+						leftScore++;
+					}
+					else if(currentFirstDerivative == 1) {
+						rightScore++;
+					}
+					else if(currentFirstDerivative >= -12 && currentFirstDerivative <= -2) {
+						rightScore++;
+					}
+					else if(currentFirstDerivative == 0) {
+
+					}
+					else {
+						rejectedInLoop = true;
+						break;
+					}
+				}
+
+				if(hitTrue) {
+					lastCount = currentCount;
+					lastFirstDerivative = currentFirstDerivative == 0 && lastFirstDerivative == 0 ? Integer.MAX_VALUE : currentFirstDerivative;;
+				} else {
+					lastCount = Integer.MAX_VALUE;
+					lastFirstDerivative = Integer.MAX_VALUE;
+				}
+
+				currentFirstDerivative = 0;
 				currentCount = 0;
 			}
 
-			System.out.println(xs);
+			boxScore /= 2;
+
+			System.out.println("f(y) = " + xs);
+			System.out.println("f'(y) = " + xPrimes);
+
+			System.out.println("Left Score: " + leftScore);
+			System.out.println("Right Score: " + rightScore);
+			System.out.println("Box Score: " + boxScore);
+			
+			if(!rejectedInLoop) {
+				if(leftScore > rightScore && leftScore > (boxScore-1)) {
+					System.out.println("LEFT");
+					retval.add(box);
+				}
+				else if(rightScore > leftScore && rightScore > (boxScore-1)) {
+					System.out.println("RIGHT");
+					retval.add(box);
+				}
+				else {
+					System.out.println("REJECTED reason2");
+				}
+			} else {
+				System.out.println("REJECTED reason1");
+			}
+
+			System.out.println();
 		}
+		
+		// try{
+		// 	Thread.sleep(5*1000);
+		// 	System.out.println(System.lineSeparator());
+		// }catch(Exception ex){
+		// 	ex.printStackTrace();
+		// 	System.exit(1);
+		// }
 
 		return retval;
 	}
