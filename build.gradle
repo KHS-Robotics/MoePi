@@ -22,9 +22,6 @@ def v4l4jLocation = "libs/native"
 repositories {
     mavenCentral()
     maven {
-      url "http://first.wpi.edu/FRC/roborio/maven/release"
-    }
-    maven {
       url "https://oss.sonatype.org/content/groups/public"
     }
     flatDir {
