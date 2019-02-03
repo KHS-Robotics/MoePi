@@ -1,5 +1,5 @@
 # MoePi
-Vision software for offboard vision processing using a Raspberry Pi 3 using Java utilizing OpenCV, V4L4J, and Pi4J over UDP.
+Vision software for offboard vision processing using a Raspberry Pi 3 using Java utilizing V4L4J and Pi4J over UDP.
 
 ## Big Thanks to MOE 365!
 Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.

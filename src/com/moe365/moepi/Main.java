@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.imageio.ImageIO;
 
-import org.opencv.core.Core;
 import com.moe365.moepi.geom.Polygon;
 import com.moe365.moepi.geom.PreciseRectangle;
 import com.moe365.moepi.geom.Polygon.PointNode;
@@ -75,10 +74,6 @@ public class Main {
 	static {
 		// Print java.library.path
 		//System.out.println("java.library.path set to " + System.getProperty("java.library.path"));
-
-		// Loads our OpenCV library. This MUST be included
-		//System.out.println("Loading natives for " + Core.NATIVE_LIBRARY_NAME + "...");
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
 		// Loads v4l4j. This MUST be included
 		//System.out.println("Loading natives for v4l4j...");

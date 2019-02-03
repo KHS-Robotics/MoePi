@@ -15,7 +15,9 @@ plugins {
 def projectName = 'MoePi'
 mainClassName = 'com.moe365.moepi.Main'
 
-apply from: 'dependencies.gradle'
+def outputDirectory = file("${rootDir}/output")
+def nativesLocation = "$buildDir/native"
+def v4l4jLocation = "libs/native"
 
 repositories {
     mavenCentral()
@@ -31,7 +33,6 @@ repositories {
 }
 
 dependencies {
-  compile 'org.opencv:opencv-java:3.1.0'
   compile 'com.pi4j:pi4j-core:1.2-SNAPSHOT'
   compile name: 'v4l4j'
   compile name: 'jetty-http-9.4.1.v20170120'
@@ -68,7 +69,11 @@ distributions {
   }
 }
 
-def outputDirectory = file("${rootDir}/output")
+task copyV4l4J(type: Copy) {
+  description = 'Copies V4l4J Natives into nativesLocation'
+  from v4l4jLocation
+  into nativesLocation
+}
 
 task writeExecuteScript() {
   dependsOn jar
@@ -82,7 +87,6 @@ task writeExecuteScript() {
 task copyToOutput(type: Copy) {
   dependsOn shadowJar
   dependsOn copyV4l4J
-  dependsOn unzipOpenCv
   dependsOn writeExecuteScript
   destinationDir = outputDirectory
   from (file(shadowJar.archivePath)) {
@@ -103,7 +107,6 @@ applicationDefaultJvmArgs = ["-Djava.library.path=${nativesLocation}"]
 
 build.dependsOn copyToOutput
 run.dependsOn copyV4l4J
-run.dependsOn unzipOpenCv
 
 clean {
     delete outputDirectory
