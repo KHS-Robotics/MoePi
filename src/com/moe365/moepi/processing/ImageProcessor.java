@@ -217,7 +217,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			System.out.println("BOX " + boxIndex);
 			System.out.println(box);
 			if(box.getWidth() > box.getHeight()) {
-				System.out.println("REJECT reason3: W > H");
+				System.out.println("REJECT reason1: W > H");
 				continue;
 			}
 
@@ -253,6 +253,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 					if(delta == -1) {
 						leftScore++;
+						rightScore--;
 
 						if(zerosInARow > 0) {
 							leftScore++;
@@ -262,6 +263,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 					}
 					else if(delta == 1) {
 						rightScore++;
+						leftScore--;
 
 						if(zerosInARow > 0) {
 							rightScore++;
@@ -269,7 +271,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 						zerosInARow = 0;
 					}
-					else if(delta >= -12 && delta <= -2) {
+					else if(delta >= -13 && delta <= -2) {
 						rightScore++;
 						leftScore--;
 						boxScore--;
@@ -306,22 +308,23 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			System.out.println("Box Score: " + boxScore);
 			
 			if(!rejectedInLoop) {
-				if(leftScore > rightScore && leftScore > boxScore) {
+				
+				if(boxScore > leftScore && boxScore > rightScore) {
+					System.out.println("REJECTED reason3: box score wins");
+				}
+				else if(leftScore > rightScore && leftScore > (boxScore-1)) {
 					System.out.println("LEFT");
 					processed.add(box);
 				}
-				else if(rightScore > leftScore && rightScore > boxScore) {
+				else if(rightScore > leftScore && rightScore > (boxScore-1)) {
 					System.out.println("RIGHT");
 					processed.add(box);
 				}
-				else if(leftScore == rightScore) {
-					System.out.println("REJECTED reason4: leftScore = rightScore");
-				}
 				else {
-					System.out.println("REJECTED reason2: box score wins");
+					System.out.println("REJECTED reason4: proper target criteria not met");
 				}
 			} else {
-				System.out.println("REJECTED reason1: absurd delta");
+				System.out.println("REJECTED reason2: absurd delta");
 			}
 
 			System.out.println();
