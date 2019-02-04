@@ -547,10 +547,10 @@ public class Main {
 			client.writeNoneFound();
 			Thread.sleep(1000);
 			System.out.println("Wrinting r1");
-			client.writeOneFound(1.0, 2.0, 3.0, 4.0, TargetType.NONE);
+			client.writeOneFound(1.0, 2.0, 3.0, 4.0, TargetType.LEFT);
 			Thread.sleep(1000);
 			System.out.println("Writing r2");
-			client.writeTwoFound(1.0, 2.0, 3.0, 4.0, TargetType.NONE, 5.0, 6.0, 7.0, 8.2, TargetType.NONE);
+			client.writeTwoFound(1.0, 2.0, 3.0, 4.0, TargetType.LEFT, 5.0, 6.0, 7.0, 8.2, TargetType.RIGHT);
 			Thread.sleep(1000);
 		}
   	}
