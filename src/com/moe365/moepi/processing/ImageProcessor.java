@@ -177,7 +177,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		//scale the rectangles to be in terms of width/height
 		rectangles = rectangles.stream()
 				.map(PreciseRectangle.scalar(xFactor, yFactor, xFactor, yFactor))
-				.sorted((a, b)->(Double.compare(a.getX(), b.getX())))
+				.sorted((a, b)->(Double.compare(b.getArea(), a.getArea())))
 				.collect(Collectors.toList());
 		return rectangles;
 	}
