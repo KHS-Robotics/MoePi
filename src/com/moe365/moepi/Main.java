@@ -455,10 +455,6 @@ public class Main {
 			System.out.println("Target Dimensions: " + targetWidth + "x" + targetHeight);
 
 			processor = new ImageProcessor(width, height, targetWidth, targetHeight, rectangles -> {
-				// 2019 Destination Deep Space targets have a much greater height than width
-				// so remove rectangles that have a greater width than height
-				rectangles.removeIf(rect -> rect.getWidth() > rect.getHeight());
-
 				try {
 					if (rioClient != null) {
 						if (rectangles.isEmpty()) {
