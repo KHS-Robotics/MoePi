@@ -2,14 +2,13 @@ package com.moe365.moepi.processing;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import com.moe365.moepi.geom.PreciseRectangle;
+import com.moe365.moepi.geom.TargetType;
 import com.moe365.moepi.processing.AbstractImageProcessor;
 import com.moe365.moepi.processing.BinaryImage;
 import com.moe365.moepi.processing.DebuggingDiffGenerator;
@@ -178,7 +177,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		//scale the rectangles to be in terms of width/height
 		rectangles = rectangles.stream()
 				.map(PreciseRectangle.scalar(xFactor, yFactor, xFactor, yFactor))
-				.sorted((a, b)->(Double.compare(b.getArea(), a.getArea())))
+				.sorted((a, b)->(Double.compare(a.getX(), b.getX())))
 				.collect(Collectors.toList());
 		return rectangles;
 	}
@@ -215,9 +214,9 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		for(int boxIndex = 0; boxIndex < rectangles.size(); boxIndex++) {
 			final PreciseRectangle box = rectangles.get(boxIndex);
 			System.out.println("BOX " + boxIndex);
-			System.out.println(box);
 			if(box.getWidth() > box.getHeight()) {
 				System.out.println("REJECT reason1: W > H");
+				System.out.println(box);
 				continue;
 			}
 
@@ -261,7 +260,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 						zerosInARow = 0;
 					}
-					else if(delta == 1) {
+					else if(delta == 1 || delta == 2) {
 						rightScore++;
 						leftScore--;
 
@@ -271,7 +270,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 						zerosInARow = 0;
 					}
-					else if(delta >= -13 && delta <= -2) {
+					else if(delta >= -15 && delta <= -2) {
 						rightScore++;
 						leftScore--;
 						boxScore--;
@@ -309,23 +308,22 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			
 			if(!rejectedInLoop) {
 				
-				if(boxScore > leftScore && boxScore > rightScore) {
-					System.out.println("REJECTED reason3: box score wins");
-				}
-				else if(leftScore > rightScore && leftScore > (boxScore-1)) {
-					System.out.println("LEFT");
+				if(leftScore > rightScore && leftScore >= (boxScore-1)) {
+					box.setTargetType(TargetType.LEFT);
 					processed.add(box);
-				}
-				else if(rightScore > leftScore && rightScore > (boxScore-1)) {
-					System.out.println("RIGHT");
+				} 
+				else if(rightScore > leftScore && rightScore >= (boxScore-1)) {
+					box.setTargetType(TargetType.RIGHT);
 					processed.add(box);
 				}
 				else {
-					System.out.println("REJECTED reason4: proper target criteria not met");
+					System.out.println("REJECTED reason3: proper target criteria not met");
 				}
 			} else {
 				System.out.println("REJECTED reason2: absurd delta");
 			}
+
+			System.out.println(box);
 
 			System.out.println();
 		}

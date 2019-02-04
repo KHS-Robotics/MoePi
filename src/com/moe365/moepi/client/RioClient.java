@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 import com.moe365.moepi.geom.PreciseRectangle;
+import com.moe365.moepi.geom.TargetType;
 
 /**
  * UDP server to broadcast data at the RIO. <strong>Not</strong> thread safe.
@@ -91,7 +92,7 @@ public interface RioClient extends Closeable {
 	/**
 	 * Size of the buffer.
 	 */
-	public static final int BUFFER_SIZE = 72;
+	public static final int BUFFER_SIZE = 88;
 	public static final int RESOLVE_RETRY_TIME = 5_000;
 	/**
 	 * mDNS address of the RoboRio.
@@ -112,16 +113,16 @@ public interface RioClient extends Closeable {
 		this.broadcast(new OneFoundRioPacket(rect));
 	}
 	
-	default void writeOneFound(double left, double top, double width, double height) throws IOException {
-		this.broadcast(new OneFoundRioPacket(left, top, width, height));
+	default void writeOneFound(double left, double top, double width, double height, TargetType type) throws IOException {
+		this.broadcast(new OneFoundRioPacket(left, top, width, height, type));
 	}
 	
 	default void writeTwoFound(PreciseRectangle rect1, PreciseRectangle rect2) throws IOException {
 		this.broadcast(new TwoFoundRioPacket(rect1, rect2));
 	}
 	
-	default void writeTwoFound(double left1, double top1, double width1, double height1, double left2, double top2, double width2, double height2) throws IOException {
-		this.broadcast(new TwoFoundRioPacket(left1, top1, width1, height1, left2, top2, width2, height2));
+	default void writeTwoFound(double left1, double top1, double width1, double height1, TargetType type1, double left2, double top2, double width2, double height2, TargetType type2) throws IOException {
+		this.broadcast(new TwoFoundRioPacket(left1, top1, width1, height1, type1, left2, top2, width2, height2, type2));
 	}
 	
 	default void writeError(String message) throws IOException {

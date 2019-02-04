@@ -3,6 +3,7 @@ package com.moe365.moepi.client;
 import java.nio.ByteBuffer;
 
 import com.moe365.moepi.geom.PreciseRectangle;
+import com.moe365.moepi.geom.TargetType;
 
 /**
  * {@link RioPacket} that tells the Rio that we found one bounding box (and where it is, of course!)
@@ -13,16 +14,18 @@ public class OneFoundRioPacket implements RioPacket {
 	double y;
 	double width;
 	double height;
+	TargetType targetType;
 	
 	public OneFoundRioPacket(PreciseRectangle rect) {
-		this(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+		this(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), rect.getTargetType());
 	}
 	
-	public OneFoundRioPacket(double x, double y, double width, double height) {
+	public OneFoundRioPacket(double x, double y, double width, double height, TargetType type) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.targetType = type;
 	}
 	
 	@Override
@@ -32,8 +35,8 @@ public class OneFoundRioPacket implements RioPacket {
 
 	@Override
 	public int getLength() {
-		//4 doubles
-		return 4 * Double.BYTES;
+		//5 doubles
+		return 5 * Double.BYTES;
 	}
 
 	@Override
@@ -42,6 +45,6 @@ public class OneFoundRioPacket implements RioPacket {
 		buffer.putDouble(this.y);
 		buffer.putDouble(this.width);
 		buffer.putDouble(this.height);
+		buffer.putDouble((double) this.targetType.getType());
 	}
-
 }
