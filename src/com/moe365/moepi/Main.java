@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 import com.moe365.moepi.geom.Polygon;
 import com.moe365.moepi.geom.PreciseRectangle;
 import com.moe365.moepi.geom.Polygon.PointNode;
+import com.moe365.moepi.geom.TargetType;
 import com.moe365.moepi.net.MPHttpServer;
 import com.moe365.moepi.processing.AbstractImageProcessor;
 import com.moe365.moepi.processing.ContourTracer;
@@ -546,10 +547,10 @@ public class Main {
 			client.writeNoneFound();
 			Thread.sleep(1000);
 			System.out.println("Wrinting r1");
-			client.writeOneFound(1.0, 2.0, 3.0, 4.0);
+			client.writeOneFound(1.0, 2.0, 3.0, 4.0, TargetType.NONE);
 			Thread.sleep(1000);
 			System.out.println("Writing r2");
-			client.writeTwoFound(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.2);
+			client.writeTwoFound(1.0, 2.0, 3.0, 4.0, TargetType.NONE, 5.0, 6.0, 7.0, 8.2, TargetType.NONE);
 			Thread.sleep(1000);
 		}
   	}
