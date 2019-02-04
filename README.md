@@ -1,5 +1,5 @@
 # MoePi
-Vision software for offboard vision processing using a Raspberry Pi 3 using Java utilizing V4L4J and Pi4J over UDP.
+Vision software for offboard vision processing using a Raspberry Pi 3 using Java utilizing Pi4J and V4L4J over UDP for the FIRST Robotics Competition (FRC).
 
 ## Big Thanks to MOE 365!
 Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.
@@ -7,12 +7,13 @@ Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](htt
 ## Features and Technique
 See [this README](https://github.com/MOERobotics/stronghold-pi-2016/blob/master/README.md) by MOE for specifics on what the code features and how the image processing works.
 
-## What You Need
+## What You'll Need
 1. Raspberry Pi 3 Model B/B+ running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/)
 2. Internet Connection for the Pi (initially, for `install_dependencies.sh` and the first `./gradlew build`)
 3. USB Camera (tested with [Microsoft LifeCam HD-3000](https://www.amazon.com/Microsoft-3364820-LifeCam-HD-3000/dp/B008ZVRAQS))
 4. [LED Halo (Green, tested with 60mm)](https://www.superbrightleds.com/moreinfo/led-halo-rings/led-halo-angel-eye-headlight-accent-lights/49/307/)
 5. [MOSFET](https://www.amazon.com/WINGONEER-IRF520-MOSFET-Driver-Module/dp/B06XHH1TQM) to control the LED Halo.
+6. [3M Scotchlite Reflective Tape 8830](https://www.andymark.com/products/reflective-material-3m-2-in-wide-x-21-5-adhesive-backed)
 
 ## Installing The Necessary Dependencies
 On the Pi, run the install dependencies shell script file via `./install_dependencies.sh`. This will install [WiringPi](http://wiringpi.com/) to control the Pi's GPIO pins (e.g., the LED Halo) and [V4L4J](https://github.com/mailmindlin/v4l4j) to control the camera.
