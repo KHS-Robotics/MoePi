@@ -172,7 +172,7 @@ public class Main {
 
 				final AtomicBoolean ledState = new AtomicBoolean(false);
 				final AtomicLong ledUpdateTimestamp = new AtomicLong(0);
-				final int gpioDelay = parsed.getOrDefault("--gpio-delay", -10000);
+				final int gpioDelay = parsed.getOrDefault("--gpio-delay", -5000);
 
 				frameGrabber.setCaptureCallback(new CaptureCallback() {
 					@Override
