@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.5.1";
+	private static final String VERSION = "1.5.2";
 
 	// TARGET
 	private static final int DEFAULT_TARGET_WIDTH = 14;
@@ -345,7 +345,7 @@ public class Main {
 			
 			// Brightness
 			Control brightnessControl = controls.getControl("Brightness");
-			final int brightnessValue = args.getOrDefault("--brightness", gpioDisabled ? 180 : 42);
+			final int brightnessValue = args.getOrDefault("--brightness", gpioDisabled ? 180 : 30);
 			brightnessControl.setValue(brightnessValue);
 			
 		} catch (ControlException | UnsupportedMethod | StateException ex) {
