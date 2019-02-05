@@ -8,6 +8,9 @@ import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 
+import com.moe365.moepi.client.packets.HelloRioPacket;
+import com.moe365.moepi.client.packets.RioPacket;
+
 public class StaticRioClient extends AbstractRioClient {
 	
 	protected final int serverPort;

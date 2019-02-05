@@ -3,6 +3,7 @@ package com.moe365.moepi.client;
 import java.io.Closeable;
 import java.io.IOException;
 
+import com.moe365.moepi.client.packets.*;
 import com.moe365.moepi.geom.PreciseRectangle;
 import com.moe365.moepi.geom.TargetType;
 
@@ -92,7 +93,7 @@ public interface RioClient extends Closeable {
 	/**
 	 * Size of the buffer.
 	 */
-	public static final int BUFFER_SIZE = 88;
+	public static final int BUFFER_SIZE = 248;
 	public static final int RESOLVE_RETRY_TIME = 5_000;
 	/**
 	 * mDNS address of the RoboRio.
@@ -114,7 +115,11 @@ public interface RioClient extends Closeable {
 	}
 	
 	default void writeOneFound(double left, double top, double width, double height, TargetType type) throws IOException {
-		this.broadcast(new OneFoundRioPacket(left, top, width, height, type));
+		this.broadcast(
+			new OneFoundRioPacket(
+				left, top, width, height, type
+			)
+		);
 	}
 	
 	default void writeTwoFound(PreciseRectangle rect1, PreciseRectangle rect2) throws IOException {
@@ -122,7 +127,88 @@ public interface RioClient extends Closeable {
 	}
 	
 	default void writeTwoFound(double left1, double top1, double width1, double height1, TargetType type1, double left2, double top2, double width2, double height2, TargetType type2) throws IOException {
-		this.broadcast(new TwoFoundRioPacket(left1, top1, width1, height1, type1, left2, top2, width2, height2, type2));
+		this.broadcast(
+			new TwoFoundRioPacket(
+				left1, top1, width1, height1, type1, 
+				left2, top2, width2, height2, type2
+			)
+		);
+	}
+
+	default void writeThreeFound(PreciseRectangle rect1, PreciseRectangle rect2, PreciseRectangle rect3) throws IOException {
+		this.broadcast(new ThreeFoundRioPacket(rect1, rect2, rect3));
+	}
+	
+	default void writeThreeFound(double left1, double top1, double width1, double height1, TargetType type1, 
+								double left2, double top2, double width2, double height2, TargetType type2,
+								double left3, double top3, double width3, double height3, TargetType type3) throws IOException {
+		this.broadcast(
+			new ThreeFoundRioPacket(
+				left1, top1, width1, height1, type1, 
+				left2, top2, width2, height2, type2, 
+				left3, top3, width3, height3, type3
+			)
+		);
+	}
+
+	default void writeFourFound(PreciseRectangle rect1, PreciseRectangle rect2, PreciseRectangle rect3, PreciseRectangle rect4) throws IOException {
+		this.broadcast(new FourFoundRioPacket(rect1, rect2, rect3, rect4));
+	}
+	
+	default void writeFourFound(double left1, double top1, double width1, double height1, TargetType type1, 
+								double left2, double top2, double width2, double height2, TargetType type2,
+								double left3, double top3, double width3, double height3, TargetType type3,
+								double left4, double top4, double width4, double height4, TargetType type4) throws IOException {
+		this.broadcast(
+			new FourFoundRioPacket(
+				left1, top1, width1, height1, type1, 
+				left2, top2, width2, height2, type2, 
+				left3, top3, width3, height3, type3,
+				left4, top4, width4, height4, type4
+			)
+		);
+	}
+
+	default void writeFiveFound(PreciseRectangle rect1, PreciseRectangle rect2, PreciseRectangle rect3, PreciseRectangle rect4, PreciseRectangle rect5) throws IOException {
+		this.broadcast(new FiveFoundRioPacket(rect1, rect2, rect3, rect4, rect5));
+	}
+	
+	default void writeFiveFound(double left1, double top1, double width1, double height1, TargetType type1, 
+								double left2, double top2, double width2, double height2, TargetType type2,
+								double left3, double top3, double width3, double height3, TargetType type3,
+								double left4, double top4, double width4, double height4, TargetType type4,
+								double left5, double top5, double width5, double height5, TargetType type5) throws IOException {
+		this.broadcast(
+			new FiveFoundRioPacket(
+				left1, top1, width1, height1, type1, 
+				left2, top2, width2, height2, type2, 
+				left3, top3, width3, height3, type3,
+				left4, top4, width4, height4, type4,
+				left5, top5, width5, height5, type5
+			)
+		);
+	}
+
+	default void writeSixFound(PreciseRectangle rect1, PreciseRectangle rect2, PreciseRectangle rect3, PreciseRectangle rect4, PreciseRectangle rect5, PreciseRectangle rect6) throws IOException {
+		this.broadcast(new SixFoundRioPacket(rect1, rect2, rect3, rect4, rect5, rect6));
+	}
+	
+	default void writeFiveFound(double left1, double top1, double width1, double height1, TargetType type1, 
+								double left2, double top2, double width2, double height2, TargetType type2,
+								double left3, double top3, double width3, double height3, TargetType type3,
+								double left4, double top4, double width4, double height4, TargetType type4,
+								double left5, double top5, double width5, double height5, TargetType type5,
+								double left6, double top6, double width6, double height6, TargetType type6) throws IOException {
+		this.broadcast(
+			new SixFoundRioPacket(
+				left1, top1, width1, height1, type1, 
+				left2, top2, width2, height2, type2, 
+				left3, top3, width3, height3, type3,
+				left4, top4, width4, height4, type4,
+				left5, top5, width5, height5, type5,
+				left6, top6, width6, height6, type6
+			)
+		);
 	}
 	
 	default void writeError(String message) throws IOException {

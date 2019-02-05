@@ -1,4 +1,4 @@
-package com.moe365.moepi.client;
+package com.moe365.moepi.client.packets;
 
 import java.nio.ByteBuffer;
 
@@ -14,21 +14,47 @@ public interface RioPacket {
 	 * this, though.
 	 */
 	public static final short STATUS_NOP = 0;
+
 	/**
 	 * Denotes a packet telling the Rio that no target(s) were found.
 	 */
 	public static final short STATUS_NONE_FOUND = 1;
+
 	/**
-	 * Denotes a packet telling the Rio that one target has been detected. The
-	 * position data MUST be included in the packet.
+	 * Denotes a packet telling the Rio that one target has been detected.
 	 */
 	public static final short STATUS_ONE_FOUND = 2;
+
 	/**
-	 * Denotes a packet telling the Rio that two or more targets have been
-	 * found. The position data of the two largest targets found (by area) MUST
-	 * be included in the packet.
+	 * Denotes a packet telling the Rio that two targets have been
+	 * found.
 	 */
 	public static final short STATUS_TWO_FOUND = 3;
+
+	/**
+	 * Denotes a packet telling the Rio that three targets have been
+	 * found.
+	 */
+	public static final short STATUS_THREE_FOUND = 4;
+
+	/**
+	 * Denotes a packet telling the Rio that four targets have been
+	 * found.
+	 */
+	public static final short STATUS_FOUR_FOUND = 5;
+
+	/**
+	 * Denotes a packet telling the Rio that five targets have been
+	 * found.
+	 */
+	public static final short STATUS_FIVE_FOUND = 6;
+
+	/**
+	 * Denotes a packet telling the Rio that six targets have been
+	 * found.
+	 */
+	public static final short STATUS_SIX_FOUND = 7;
+	
 	// Statuses >= 0x8000 are special metadata things, and shouldn't be
 	// discarded, ever
 	/**

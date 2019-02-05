@@ -1,4 +1,4 @@
-package com.moe365.moepi.client;
+package com.moe365.moepi.client.packets;
 
 import java.nio.ByteBuffer;
 

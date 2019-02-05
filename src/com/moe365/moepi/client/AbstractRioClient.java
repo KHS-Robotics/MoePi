@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.moe365.moepi.client.packets.RioPacket;
+
 public abstract class AbstractRioClient implements RioClient {
 	
 	/**

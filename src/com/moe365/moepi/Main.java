@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.5.3";
+	private static final String VERSION = "1.6.0";
 
 	// TARGET
 	private static final int DEFAULT_TARGET_WIDTH = 14;
@@ -458,15 +458,49 @@ public class Main {
 			processor = new ImageProcessor(width, height, targetWidth, targetHeight, rectangles -> {
 				try {
 					if (rioClient != null) {
-						if (rectangles.isEmpty()) {
+						final int numTargets = rectangles.size();
+						if(numTargets == 0) {
 							rioClient.writeNoneFound();
-						} 
-						else if (rectangles.size() == 1) {
+						}
+						else if(numTargets == 1) {
 							rioClient.writeOneFound(rectangles.get(0));
-						} 
-						else {
-							// send the largest rectangles to the Rio
+						}
+						else if(numTargets == 2) {
 							rioClient.writeTwoFound(rectangles.get(0), rectangles.get(1));
+						}
+						else if(numTargets == 3) {
+							rioClient.writeThreeFound(
+								rectangles.get(0), 
+								rectangles.get(1),
+								rectangles.get(2)
+							);
+						}
+						else if(numTargets == 4) {
+							rioClient.writeFourFound(
+								rectangles.get(0), 
+								rectangles.get(1),
+								rectangles.get(2),
+								rectangles.get(3)
+							);
+						}
+						else if(numTargets == 5) {
+							rioClient.writeFiveFound(
+								rectangles.get(0), 
+								rectangles.get(1),
+								rectangles.get(2),
+								rectangles.get(3),
+								rectangles.get(4)
+							);
+						}
+						else if(numTargets >= 6) {
+							rioClient.writeSixFound(
+								rectangles.get(0), 
+								rectangles.get(1),
+								rectangles.get(2),
+								rectangles.get(3),
+								rectangles.get(4),
+								rectangles.get(5)
+							);
 						}
 					}
 				} catch (IOException | NullPointerException ex) {
