@@ -264,6 +264,10 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 						rightScore++;
 						leftScore--;
 
+						if(delta == 2) {
+							boxScore--;
+						}
+
 						if(zerosInARow > 0) {
 							rightScore++;
 						}
