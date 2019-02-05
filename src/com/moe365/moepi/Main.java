@@ -459,7 +459,7 @@ public class Main {
 				try {
 					if (rioClient != null) {
 						final int numTargets = rectangles.size();
-						if(numTargets == 0) {
+						if(numTargets <= 0) {
 							rioClient.writeNoneFound();
 						}
 						else if(numTargets == 1) {
@@ -492,7 +492,7 @@ public class Main {
 								rectangles.get(4)
 							);
 						}
-						else if(numTargets >= 6) {
+						else {
 							rioClient.writeSixFound(
 								rectangles.get(0), 
 								rectangles.get(1),
