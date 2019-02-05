@@ -160,7 +160,7 @@ public class CommandLineParser implements Serializable, Function<String[], Parse
 			.addKvPair("--test", "target", "Run test by name. Tests include 'controls', 'client', 'processing' and 'sse'. For 'processing' see --test-images.")
 			.addKvPair("--test-images", "images", "Directory of test images to use when running --test processing.")
 			// Camera options
-			.addKvPair("--camera", "device", "Specify the camera device file to use. Default '/dev/video0'")
+			.addKvPair("--camera", "device", "Specify the camera device file to use. Default /dev/video0.")
 			.alias("-c", "--camera")
 			.addKvPair("--width", "px", "Set the width of image to capture/broadcast")
 			.addKvPair("--height", "px", "Set the height of image to capture/broadcast")
@@ -180,7 +180,7 @@ public class CommandLineParser implements Serializable, Function<String[], Parse
 			.alias("--moejs", "--moejs-dir")
 			.addKvPair("--moejs-port", "port", "Port for MOE.js.")
 			// GPIO options
-			.addKvPair("--gpio-pin", "pin number", "Set which GPIO pin to use. Is ignored if --no-gpio is set.")
+			.addKvPair("--gpio-pin", "pin number", "Set which GPIO pin to use. Is ignored if --no-gpio is set. Default is 0.")
 			.addKvPair("--gpio-delay", "microseconds", "Delay for LED flashing in microseconds. Be mindful when changing this that the LED and Camera On/Off stays synchronized by visiting MOE.js in a browser and ensuring you always see a fully lit target (e.g., no random black blips).")
 			// Image processor options
 			.addKvPair("--x-skip", "px", "Number of pixels to skip on the x axis when processing sweep 1 (not implemented)")
