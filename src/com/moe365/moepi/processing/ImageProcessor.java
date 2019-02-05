@@ -312,11 +312,11 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			
 			if(!rejectedInLoop) {
 				
-				if(leftScore > rightScore && leftScore >= (boxScore-1)) {
+				if(leftScore > 0 && leftScore > rightScore && leftScore >= (boxScore-1)) {
 					box.setTargetType(TargetType.LEFT);
 					processed.add(box);
 				} 
-				else if(rightScore > leftScore && rightScore >= (boxScore-1)) {
+				else if(rightScore > 0 && rightScore > leftScore && rightScore >= (boxScore-1)) {
 					box.setTargetType(TargetType.RIGHT);
 					processed.add(box);
 				}
