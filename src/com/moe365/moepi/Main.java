@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.3";
+	private static final String VERSION = "1.6.4";
 
 	// TARGET - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;
@@ -579,14 +579,58 @@ public class Main {
 		System.out.println("RUNNING TEST :: CLIENT");
 		// just spews out UDP packets on a 3s loop
 		while (true) {
-			System.out.println("Writing r0");
+			System.out.println("Writing none found");
 			client.writeNoneFound();
 			Thread.sleep(1000);
-			System.out.println("Wrinting r1");
-			client.writeOneFound(1.0, 2.0, 3.0, 4.0, TargetType.LEFT);
+
+			System.out.println("Wrinting one found");
+			client.writeOneFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT
+			);
 			Thread.sleep(1000);
-			System.out.println("Writing r2");
-			client.writeTwoFound(1.0, 2.0, 3.0, 4.0, TargetType.LEFT, 5.0, 6.0, 7.0, 8.2, TargetType.RIGHT);
+
+			System.out.println("Writing two found");
+			client.writeTwoFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
+				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT
+			);
+			Thread.sleep(1000);
+
+			System.out.println("Writing three found");
+			client.writeThreeFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
+				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT,
+				9.0, 10.0, 11.0, 12.0, TargetType.LEFT
+			);
+			Thread.sleep(1000);
+			System.out.println("Wrinting four found");
+			client.writeFourFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
+				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT,
+				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
+				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT
+			);
+			Thread.sleep(1000);
+
+			System.out.println("Writing five found");
+			client.writeFiveFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
+				5.0, 6.0, 7.0, 8.2, TargetType.RIGHT,
+				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
+				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT,
+				17.0, 18.0, 19.0, 20.0, TargetType.LEFT
+			);
+			Thread.sleep(1000);
+
+			System.out.println("Writing six found");
+			client.writeSixFound(
+				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
+				5.0, 6.0, 7.0, 8.2, TargetType.RIGHT,
+				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
+				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT,
+				17.0, 18.0, 19.0, 20.0, TargetType.LEFT,
+				21.0, 22.0, 23.0, 24.0, TargetType.RIGHT
+			);
 			Thread.sleep(1000);
 		}
   	}

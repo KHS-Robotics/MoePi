@@ -193,7 +193,7 @@ public interface RioClient extends Closeable {
 		this.broadcast(new SixFoundRioPacket(rect1, rect2, rect3, rect4, rect5, rect6));
 	}
 	
-	default void writeFiveFound(double left1, double top1, double width1, double height1, TargetType type1, 
+	default void writeSixFound(double left1, double top1, double width1, double height1, TargetType type1, 
 								double left2, double top2, double width2, double height2, TargetType type2,
 								double left3, double top3, double width3, double height3, TargetType type3,
 								double left4, double top4, double width4, double height4, TargetType type4,
