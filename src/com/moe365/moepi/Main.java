@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.4";
+	private static final String VERSION = "1.6.5";
 
 	// TARGET - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;

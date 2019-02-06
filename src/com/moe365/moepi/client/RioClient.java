@@ -93,7 +93,7 @@ public interface RioClient extends Closeable {
 	/**
 	 * Size of the buffer.
 	 */
-	public static final int BUFFER_SIZE = 248;
+	public static final int BUFFER_SIZE = 246;
 	public static final int RESOLVE_RETRY_TIME = 5_000;
 	/**
 	 * mDNS address of the RoboRio.
