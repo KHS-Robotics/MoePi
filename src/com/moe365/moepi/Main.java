@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.1";
+	private static final String VERSION = "1.6.2";
 
 	// TARGET
 	private static final int DEFAULT_TARGET_WIDTH = 14;

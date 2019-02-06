@@ -4,7 +4,7 @@ package com.moe365.moepi.geom;
  * For Destination Deep Space
  */
 public enum TargetType {
-    LEFT(0), RIGHT(1), NONE(-1);
+    NONE(1), LEFT(2), RIGHT(3);
 
     private final int targetType;
 
