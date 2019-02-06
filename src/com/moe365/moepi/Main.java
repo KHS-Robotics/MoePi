@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.0";
+	private static final String VERSION = "1.6.1";
 
 	// TARGET
 	private static final int DEFAULT_TARGET_WIDTH = 14;
@@ -455,7 +455,9 @@ public class Main {
 			final int targetHeight = args.getOrDefault("--target-height", DEFAULT_TARGET_HEIGHT);
 			System.out.println("Target Dimensions: " + targetWidth + "x" + targetHeight);
 
-			processor = new ImageProcessor(width, height, targetWidth, targetHeight, rectangles -> {
+			final int maxZeros = args.getOrDefault("--max-zeros", ImageProcessor.DEFAULT_MAX_ZEROS_IN_A_ROW);
+
+			processor = new ImageProcessor(width, height, targetWidth, targetHeight, maxZeros, saveDiff, saveDir, rectangles -> {
 				try {
 					if (rioClient != null) {
 						final int numTargets = rectangles.size();
@@ -512,7 +514,7 @@ public class Main {
 					server.offerRectangles(rectangles);
 				}
 
-			}, saveDiff, saveDir);
+			});
 		}
 
 		return processor.start();

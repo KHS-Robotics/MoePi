@@ -25,6 +25,9 @@ import au.edu.jcu.v4l4j.exceptions.UnsupportedMethod;
  */
 public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle>> {
 	public static final int DEFAULT_TOLERANCE = 70;
+	public static final int DEFAULT_MAX_ZEROS_IN_A_ROW = 4;
+
+	private final int maxZerosInARow; // for rejection math, how many x'(y) = 0 in a row constitutes a box
 	
 	public final DiffGenerator diff;
 	
@@ -42,15 +45,15 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 	 */
 	protected final int minBlobHeight;
 	
-	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, Consumer<List<PreciseRectangle>> handler) {
-		this(frameWidth, frameHeight, minBlobWidth, minBlobHeight, handler, false, null);
+	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, int maxZerosInARow, Consumer<List<PreciseRectangle>> handler) {
+		this(frameWidth, frameHeight, minBlobWidth, minBlobHeight, maxZerosInARow, false, null, handler);
 	}
 
-	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, Consumer<List<PreciseRectangle>> handler, boolean saveDiff) {
-		this(frameWidth, frameHeight, minBlobWidth, minBlobHeight, handler, saveDiff, "img");
+	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, int maxZerosInARow, boolean saveDiff, Consumer<List<PreciseRectangle>> handler) {
+		this(frameWidth, frameHeight, minBlobWidth, minBlobHeight, maxZerosInARow, saveDiff, "img", handler);
 	}
 	
-	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, Consumer<List<PreciseRectangle>> handler, boolean saveDiff, String saveLoc) {
+	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, int maxZerosInARow, boolean saveDiff, String saveLoc, Consumer<List<PreciseRectangle>> handler) {
 		super(0, 0, frameWidth, frameHeight, handler);
 		
 //		this.diff = new LazyDiffGenerator(0, 0, frameWidth, frameHeight, DEFAULT_TOLERANCE);
@@ -68,6 +71,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		
 		this.minBlobWidth = minBlobWidth;
 		this.minBlobHeight = minBlobHeight;
+		this.maxZerosInARow = maxZerosInARow;
 	}
 	
 	/**
@@ -164,8 +168,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		// long boundingBoxEnd = System.nanoTime();
 		// System.out.println("Time BoundingBox: " + (boundingBoxEnd - boundingBoxStart) );
 		
-		// TODO: bounding box rejection work in progress
-		// process rectangles for rejection
+		// process rectangles for left/right detection/rejection
 		// long processBoxesStart = System.nanoTime();
 		rectangles = processBoxesDestinationDeepSpace(rectangles, processed);
 		// long processBoxesEnd = System.nanoTime();
@@ -177,7 +180,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 		//scale the rectangles to be in terms of width/height
 		rectangles = rectangles.stream()
 				.map(PreciseRectangle.scalar(xFactor, yFactor, xFactor, yFactor))
-				.sorted((a, b)->(Double.compare(b.getArea(), a.getArea())))
+				.sorted((a, b)->(Double.compare(a.getX(), b.getX())))
 				.collect(Collectors.toList());
 		return rectangles;
 	}
@@ -205,18 +208,22 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 	}
 
 	/**
-	 * TODO: work in progress for rejection of bounding boxes
-	 * @return boxes after going through rejection math
+	 * Determines which targets are a left or a right, and rejects those
+	 * that do not fit into our criteria. This is probably not the most
+	 * efficient way, but it is one of the most straightforward.
+	 * @return boxes after going through left/right detection/rejection math for Destination Deep Space
 	 */
 	private List<PreciseRectangle> processBoxesDestinationDeepSpace(List<PreciseRectangle> rectangles, BinaryImage processedImg) {
 		List<PreciseRectangle> processed = new ArrayList<>();
 
 		for(int boxIndex = 0; boxIndex < rectangles.size(); boxIndex++) {
 			final PreciseRectangle box = rectangles.get(boxIndex);
-			System.out.println("BOX " + boxIndex);
+
+			// System.out.println("BOX " + boxIndex);
+
 			if(box.getWidth() > box.getHeight()) {
-				System.out.println("REJECT reason1: W > H");
-				System.out.println(box);
+				// System.out.println("REJECT reason1: W > H");
+				// System.out.println(box);
 				continue;
 			}
 
@@ -224,14 +231,11 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			final int xStart = (int) Math.ceil(box.getX());
 			final int yMax = (int) Math.ceil(box.getHeight() / 4.0) + yStart;
 			final int xMax = (int) Math.ceil(box.getWidth()) + xStart;
-			
-			// this might be something we calibrate at a competition,
-			// and therefore may want to make it a cmd-line arg/parameter
-			final int maxZerosInARow = 4;
+
+			// List<Integer> xs = new ArrayList<>(yMax - yStart), xPrimes = new ArrayList<>(yMax - yStart); // for debugging
 			
 			int leftScore = 0, rightScore = 0, boxScore = 0, zerosInARow = 0;
 			boolean hitTrue = false, rejectedInLoop = false;
-			List<Integer> xs = new ArrayList<>(yMax - yStart), xPrimes = new ArrayList<>(yMax - yStart); // for debugging for now
 			int currentCount = 0, lastCount = Integer.MAX_VALUE, delta = 0;
 			for(int y = yStart; y < yMax; y++) {
 				for(int x = xStart; x < xMax; x++) {
@@ -242,13 +246,13 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 					currentCount++;
 				}
 
-				if(hitTrue) {
-					xs.add(currentCount);
-				}
+				// if(hitTrue) {
+				// 	xs.add(currentCount);
+				// }
 
 				if(hitTrue && lastCount != Integer.MAX_VALUE) {
 					delta = currentCount - lastCount;
-					xPrimes.add(delta);
+					// xPrimes.add(delta);
 
 					if(delta == -1) {
 						leftScore++;
@@ -302,34 +306,32 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 				currentCount = delta = 0;
 			}
 
-			// for debugging for now
-			System.out.println("f(y) = " + xs);
-			System.out.println("f'(y) = " + xPrimes);
-
-			System.out.println("Left Score: " + leftScore);
-			System.out.println("Right Score: " + rightScore);
-			System.out.println("Box Score: " + boxScore);
+			// For debugging
+			// System.out.println("f(y) = " + xs);
+			// System.out.println("f'(y) = " + xPrimes);
+			// System.out.println("Left Score: " + leftScore);
+			// System.out.println("Right Score: " + rightScore);
+			// System.out.println("Box Score: " + boxScore);
 			
 			if(!rejectedInLoop) {
-				
 				if(leftScore > 0 && leftScore > rightScore && leftScore >= (boxScore-1)) {
 					box.setTargetType(TargetType.LEFT);
 					processed.add(box);
-				} 
+				}
 				else if(rightScore > 0 && rightScore > leftScore && rightScore >= (boxScore-1)) {
 					box.setTargetType(TargetType.RIGHT);
 					processed.add(box);
 				}
-				else {
-					System.out.println("REJECTED reason3: proper target criteria not met");
-				}
-			} else {
-				System.out.println("REJECTED reason2: absurd delta");
+				// else {
+				// 	System.out.println("REJECTED reason3: proper target criteria not met");
+				// }
+			// } else {
+			// 	System.out.println("REJECTED reason2: absurd delta");
 			}
 
-			System.out.println(box);
+			// System.out.println(box);
 
-			System.out.println();
+			// System.out.println();
 		}
 
 		return processed;

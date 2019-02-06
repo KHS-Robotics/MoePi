@@ -154,7 +154,7 @@ public class CommandLineParser implements Serializable, Function<String[], Parse
 			.alias("-h", "--help")
 			.alias("-?", "--help")
 			// Version
-			.addFlag("--version", "Print the version string.")
+			.addFlag("--version", "Print the version string and exits.")
 			.alias("-v", "--version")
 			// Testing
 			.addKvPair("--test", "target", "Run test by name. Tests include 'controls', 'client', 'processing' and 'sse'. For 'processing' see --test-images.")
@@ -183,6 +183,7 @@ public class CommandLineParser implements Serializable, Function<String[], Parse
 			.addKvPair("--gpio-pin", "pin number", "Set which GPIO pin to use. Is ignored if --no-gpio is set. Default is 0.")
 			.addKvPair("--gpio-delay", "microseconds", "Delay for LED flashing in microseconds. Be mindful when changing this that the LED and Camera On/Off stays synchronized by visiting MOE.js in a browser and ensuring you always see a fully lit target (e.g., no random black blips).")
 			// Image processor options
+			.addKvPair("--max-zeros", "number", "For rejection math. Max times for x'(y) = 0 in a row to constitute being boxy. Default is 4.")
 			.addKvPair("--x-skip", "px", "Number of pixels to skip on the x axis when processing sweep 1 (not implemented)")
 			.addKvPair("--y-skip", "px", "Number of pixels to skip on the y axis when processing sweep 1 (not implemented)")
 			.addFlag("--save-diff", "Save the diff image to a file (./img/delta[#].png). Requires processor.")
