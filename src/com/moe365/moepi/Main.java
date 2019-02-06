@@ -57,11 +57,11 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.2";
+	private static final String VERSION = "1.6.3";
 
-	// TARGET
-	private static final int DEFAULT_TARGET_WIDTH = 14;
-	private static final int DEFAULT_TARGET_HEIGHT = 21;
+	// TARGET - for Destination Deep Space
+	private static final int DEFAULT_TARGET_WIDTH = 16;
+	private static final int DEFAULT_TARGET_HEIGHT = 24;
 
 	// GPIO
 	private static final Pin DEFAULT_PIN = RaspiPin.GPIO_00;
