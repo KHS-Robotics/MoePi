@@ -577,7 +577,7 @@ public class Main {
   
   	protected static void testClient(final RioClient client) throws IOException, InterruptedException {
 		System.out.println("RUNNING TEST :: CLIENT");
-		// just spews out UDP packets on a 3s loop
+		// just spews out UDP packets
 		while (true) {
 			System.out.println("Writing none found");
 			client.writeNoneFound();
