@@ -13,11 +13,11 @@ public enum TargetType {
     }
 
     public boolean isLeft() {
-        return getType() == 0;
+        return getType() == 2;
     }
 
     public boolean isRight() {
-        return getType() == 1;
+        return getType() == 3;
     }
 
     public int getType() {
@@ -27,12 +27,14 @@ public enum TargetType {
     @Override
     public String toString() {
         switch(getType()) {
-            case 0:
-                return "LEFT";
             case 1:
+                return "NONE";
+            case 2:
+                return "LEFT";
+            case 3:
                 return "RIGHT";
             default:
-                return "NO TYPE";
+                return "UNKNOWN TYPE";
         }
     }
 }
