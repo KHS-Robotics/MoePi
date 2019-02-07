@@ -56,18 +56,18 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.8";
+	public static final String VERSION = "1.7.0";
 
-	// TARGET - for Destination Deep Space
+	// DEFAULTS - TARGET WIDTH/HEIGHT - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;
 	private static final int DEFAULT_TARGET_HEIGHT = 24;
 
-	// GPIO
-	private static final Pin DEFAULT_PIN = RaspiPin.GPIO_00;
-	private static final String DEFAULT_PIN_NAME = "Vision-LED-Pin";
-	private static final PinState DEFAULT_PIN_STATE = PinState.LOW;
+	// DEFAULTS - GPIO
+	private static final Pin DEFAULT_PIN = RaspiPin.GPIO_00; // GPIO Pin 0
+	private static final String DEFAULT_PIN_NAME = "MoePi-LED-Pin";
+	private static final PinState DEFAULT_PIN_STATE = PinState.LOW; // off
 
-	// CAMERA
+	// DEFAULTS - CAMERA WIDTH/HEIGHT
 	private static final int DEFAULT_WIDTH = 640;
 	private static final int DEFAULT_HEIGHT = 480;
   
@@ -512,7 +512,6 @@ public class Main {
 				if (server != null && !gpioDisabled) {
 					server.offerRectangles(rectangles);
 				}
-
 			});
 		}
 
@@ -521,6 +520,7 @@ public class Main {
 
   	protected static void testControls(VideoDevice device) throws ControlException, UnsupportedMethod, StateException {
 		System.out.println("RUNNING TEST :: CONTROLS");
+
 		ControlList controls = device.getControlList();
 		for (Control control : controls.getList()) {
 			switch (control.getType()) {
@@ -576,6 +576,7 @@ public class Main {
   
   	protected static void testClient(final RioClient client) throws IOException, InterruptedException {
 		System.out.println("RUNNING TEST :: CLIENT");
+
 		// just spews out UDP packets
 		while (true) {
 			System.out.println("Writing none found");
@@ -661,7 +662,7 @@ public class Main {
 			Color leftTargetColor = Color.RED, rightTargetColor = Color.BLUE;
 			Graphics2D g = out.createGraphics();
 			for (PreciseRectangle rect : rectangles) {
-				// draw box with a new color
+				// draw left targets red, right targets blue
 				g.setColor(rect.getTargetType().isLeft() ? leftTargetColor : rightTargetColor);
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
 			}
@@ -676,6 +677,7 @@ public class Main {
 
 	protected static void testSSE(final MPHttpServer server) throws InterruptedException {
 		System.out.println("RUNNING TEST :: SSE");
+
 		List<PreciseRectangle> rects = new ArrayList<>(2);
 		while (true) {
 			System.out.println("Offering no rectangles...");
