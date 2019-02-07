@@ -57,7 +57,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.6";
+	private static final String VERSION = "1.6.7";
 
 	// TARGET - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;
@@ -645,7 +645,6 @@ public class Main {
 		final String saveDir = args.getOrDefault("--save-dir", "img");
 
 		int numImages = 0;
-		List<Color> colors = Arrays.asList(Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.PINK);
 		while (true) {
 			File onImgFile = new File(dir.getAbsolutePath(), "on" + numImages + ".png");
 			File offImgFile = new File(dir.getAbsolutePath(), "off" + numImages + ".png");
@@ -660,20 +659,12 @@ public class Main {
 			BufferedImage out = ((DebuggingDiffGenerator)processor.diff).imgFlt;
 			System.out.println("Found rectangles " + rectangles);
 			
+			Color leftTargetColor = Color.RED, rightTargetColor = Color.BLUE;
 			Graphics2D g = out.createGraphics();
-			int i = 0; // color index
 			for (PreciseRectangle rect : rectangles) {
-				if(i == colors.size()) {
-					System.out.println("WARNING: Ran out of colors since more than six targets were detected! Only drew the first six.");
-					break;
-				}
-
 				// draw box with a new color
-				g.setColor(colors.get(i));
+				g.setColor(rect.getTargetType().isLeft() ? leftTargetColor : rightTargetColor);
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
-
-				// increment color index
-				i++;
 			}
 			g.dispose();
 
