@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -57,7 +56,7 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	private static final String VERSION = "1.6.7";
+	private static final String VERSION = "1.6.8";
 
 	// TARGET - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;
@@ -677,16 +676,23 @@ public class Main {
 
 	protected static void testSSE(final MPHttpServer server) throws InterruptedException {
 		System.out.println("RUNNING TEST :: SSE");
-		while (!Thread.interrupted()) {
-			List<PreciseRectangle> rects = new ArrayList<>(2);
+		List<PreciseRectangle> rects = new ArrayList<>(2);
+		while (true) {
+			System.out.println("Offering no rectangles...");
 			server.offerRectangles(rects);
 			Thread.sleep(1000);
+			
+			System.out.println("Offering one rectangles...");
 			rects.add(new PreciseRectangle(0.0,0.0,0.2,0.2));
 			server.offerRectangles(rects);
 			Thread.sleep(1000);
+
+			System.out.println("Offering two rectangles...");
 			rects.add(new PreciseRectangle(0.25,0.75,0.3,0.1));
 			server.offerRectangles(rects);
 			Thread.sleep(1000);
+
+			rects.clear();
 		}
 	}
 }
