@@ -16,42 +16,37 @@ public interface RioPacket {
 	public static final short STATUS_NOP = 0;
 
 	/**
-	 * Denotes a packet telling the Rio that no target(s) were found.
+	 * Denotes a packet telling the Rio that no targets have been found.
 	 */
 	public static final short STATUS_NONE_FOUND = 1;
 
 	/**
-	 * Denotes a packet telling the Rio that one target has been detected.
+	 * Denotes a packet telling the Rio that one target has been found.
 	 */
 	public static final short STATUS_ONE_FOUND = 2;
 
 	/**
-	 * Denotes a packet telling the Rio that two targets have been
-	 * found.
+	 * Denotes a packet telling the Rio that two targets have been found.
 	 */
 	public static final short STATUS_TWO_FOUND = 3;
 
 	/**
-	 * Denotes a packet telling the Rio that three targets have been
-	 * found.
+	 * Denotes a packet telling the Rio that three targets have been found.
 	 */
 	public static final short STATUS_THREE_FOUND = 4;
 
 	/**
-	 * Denotes a packet telling the Rio that four targets have been
-	 * found.
+	 * Denotes a packet telling the Rio that four targets have been found.
 	 */
 	public static final short STATUS_FOUR_FOUND = 5;
 
 	/**
-	 * Denotes a packet telling the Rio that five targets have been
-	 * found.
+	 * Denotes a packet telling the Rio that five targets have been found.
 	 */
 	public static final short STATUS_FIVE_FOUND = 6;
 
 	/**
-	 * Denotes a packet telling the Rio that six targets have been
-	 * found.
+	 * Denotes a packet telling the Rio that six targets have been found.
 	 */
 	public static final short STATUS_SIX_FOUND = 7;
 	
@@ -89,8 +84,7 @@ public interface RioPacket {
 	/**
 	 * Write payload to buffer
 	 * 
-	 * @param buffer
-	 *            Buffer to write this packet's payload to
+	 * @param buffer Buffer to write this packet's payload to
 	 */
 	void writeTo(ByteBuffer buffer);
 }

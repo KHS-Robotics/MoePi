@@ -221,6 +221,8 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 			// System.out.println("BOX " + boxIndex);
 
+			// if the width is greater than the height
+			// then this is clearly not worth our time
 			if(box.getWidth() > box.getHeight()) {
 				// System.out.println("REJECT reason1: W > H");
 				// System.out.println(box);
@@ -239,32 +241,42 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			int currentCount = 0, lastCount = Integer.MAX_VALUE, delta = 0;
 			for(int y = yStart; y < yMax; y++) {
 				for(int x = xStart; x < xMax; x++) {
+					// check for first occurrence of a true
 					if(processedImg.test(x, y)) {
 						hitTrue = true;
 						break;
 					}
-					currentCount++;
+					currentCount++; // find out how far to the right the first true is
 				}
 
 				// if(hitTrue) {
 				// 	xs.add(currentCount);
 				// }
 
+				// check there are two adjacent "trues" with
+				// respect to y-axis
 				if(hitTrue && lastCount != Integer.MAX_VALUE) {
 					delta = currentCount - lastCount;
 					// xPrimes.add(delta);
 
-					if(delta == -1) {
+					// Left targets tend to have a delta = -1
+					// Right targets tend to have a large negative
+					// delta, then eventually delta = 1
+
+					if(delta == -1) { // sloping left
 						leftScore++;
 						rightScore--;
 
-						if(zerosInARow > 0) {
+						// left targets tend to not only
+						// slope left but have a few delta=0
+						// before we do notice a left slope
+						if(zerosInARow > 0) { 
 							leftScore++;
 						}
 
 						zerosInARow = 0;
 					}
-					else if(delta == 1 || delta == 2) {
+					else if(delta == 1 || delta == 2) { // sloping right
 						rightScore++;
 						leftScore--;
 
@@ -272,37 +284,51 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 							boxScore--;
 						}
 
+						// right targets tend to not only
+						// slope right but have a few delta=0
+						// before we do notice a right slope
 						if(zerosInARow > 0) {
 							rightScore++;
 						}
 
 						zerosInARow = 0;
 					}
+					// top of right target slopes to the left dramatically
+					// for some time until it turns into the "opposite" of
+					// a left target (e.g., right targets eventually begin sloping 
+					// to the right with the same magnitute as left targets
+					// but flipped direction)
 					else if(delta >= -15 && delta <= -2) {
 						rightScore++;
 						leftScore--;
 						boxScore--;
 						zerosInARow = 0;
 					}
-					else if(delta == 0) {
+					else if(delta == 0) { // no change
 						zerosInARow++;
 
+						// tolerance for being boxy
 						if(zerosInARow > maxZerosInARow) {
 							boxScore++;
 						}
 					}
-					else {
+					else { // unexpected delta, reject it
 						rejectedInLoop = true;
 						break;
 					}
 				}
 
+				// check if hit true on this row,
+				// if true update lastCount, if false
+				// clear lastCount since there was no
+				// true for this row 
 				if(hitTrue) {
 					lastCount = currentCount;
 				} else {
 					lastCount = Integer.MAX_VALUE;
 				}
 
+				// reset currentCount and delta
 				currentCount = delta = 0;
 			}
 
@@ -313,7 +339,9 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			// System.out.println("Right Score: " + rightScore);
 			// System.out.println("Box Score: " + boxScore);
 			
+			// check if rejected above for unexpected delta
 			if(!rejectedInLoop) {
+				// check scores for final verification, if it wasn't rejected already
 				if(leftScore > 0 && leftScore > rightScore && leftScore >= (boxScore-1)) {
 					box.setTargetType(TargetType.LEFT);
 					processed.add(box);

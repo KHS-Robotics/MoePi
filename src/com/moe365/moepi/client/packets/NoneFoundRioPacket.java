@@ -7,7 +7,6 @@ import java.nio.ByteBuffer;
  * @author mailmindlin
  */
 public class NoneFoundRioPacket implements RioPacket {
-
 	@Override
 	public int getStatus() {
 		return RioPacket.STATUS_NONE_FOUND;
@@ -22,5 +21,4 @@ public class NoneFoundRioPacket implements RioPacket {
 	public void writeTo(ByteBuffer buffer) {
 		//We have no data to write
 	}
-
 }
