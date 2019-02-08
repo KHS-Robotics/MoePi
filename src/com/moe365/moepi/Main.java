@@ -577,6 +577,13 @@ public class Main {
   	protected static void testClient(final RioClient client) throws IOException, InterruptedException {
 		System.out.println("RUNNING TEST :: CLIENT");
 
+		PreciseRectangle r1 = new PreciseRectangle(1.0, 2.0, 3.0, 4.0, TargetType.LEFT);
+		PreciseRectangle r2 = new PreciseRectangle(5.0, 6.0, 7.0, 8.0, TargetType.RIGHT);
+		PreciseRectangle r3 = new PreciseRectangle(9.0, 10.0, 11.0, 12.0, TargetType.LEFT);
+		PreciseRectangle r4 = new PreciseRectangle(13.0, 14.0, 15.0, 16.0, TargetType.RIGHT);
+		PreciseRectangle r5 = new PreciseRectangle(17.0, 18.0, 19.0, 20.0, TargetType.LEFT);
+		PreciseRectangle r6 = new PreciseRectangle(21.0, 22.0, 23.0, 24.0, TargetType.RIGHT);
+
 		// just spews out UDP packets
 		while (true) {
 			System.out.println("Writing none found");
@@ -584,53 +591,26 @@ public class Main {
 			Thread.sleep(1000);
 
 			System.out.println("Wrinting one found");
-			client.writeOneFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT
-			);
+			client.writeOneFound(r1);
 			Thread.sleep(1000);
 
 			System.out.println("Writing two found");
-			client.writeTwoFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
-				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT
-			);
+			client.writeTwoFound(r1, r2);
 			Thread.sleep(1000);
 
 			System.out.println("Writing three found");
-			client.writeThreeFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
-				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT,
-				9.0, 10.0, 11.0, 12.0, TargetType.LEFT
-			);
+			client.writeThreeFound(r1, r2, r3);
 			Thread.sleep(1000);
 			System.out.println("Wrinting four found");
-			client.writeFourFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
-				5.0, 6.0, 7.0, 8.0, TargetType.RIGHT,
-				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
-				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT
-			);
+			client.writeFourFound(r1, r2, r3, r4);
 			Thread.sleep(1000);
 
 			System.out.println("Writing five found");
-			client.writeFiveFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
-				5.0, 6.0, 7.0, 8.2, TargetType.RIGHT,
-				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
-				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT,
-				17.0, 18.0, 19.0, 20.0, TargetType.LEFT
-			);
+			client.writeFiveFound(r1, r2, r3, r4, r5);
 			Thread.sleep(1000);
 
 			System.out.println("Writing six found");
-			client.writeSixFound(
-				1.0, 2.0, 3.0, 4.0, TargetType.LEFT,
-				5.0, 6.0, 7.0, 8.2, TargetType.RIGHT,
-				9.0, 10.0, 11.0, 12.0, TargetType.LEFT,
-				13.0, 14.0, 15.0, 16.0, TargetType.RIGHT,
-				17.0, 18.0, 19.0, 20.0, TargetType.LEFT,
-				21.0, 22.0, 23.0, 24.0, TargetType.RIGHT
-			);
+			client.writeSixFound(r1, r2, r3, r4, r5, r6);
 			Thread.sleep(1000);
 		}
   	}
