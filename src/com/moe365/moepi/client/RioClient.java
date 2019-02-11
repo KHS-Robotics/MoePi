@@ -42,9 +42,15 @@ import com.moe365.moepi.geom.TargetType;
  * A status code may be one of the following:
  * <ol start="0">
  * <li>{@linkplain RioPacket#STATUS_NOP NOP}</li>
+ * <li>{@linkplain RioPacket#STATUS_HELLO_WORLD HELLO_WORLD}</li>
+ * <li>{@linkplain RioPacket#STATUS_GOODBYE GOODBYE}</li>
  * <li>{@linkplain RioPacket#STATUS_NONE_FOUND NONE_FOUND}</li>
  * <li>{@linkplain RioPacket#STATUS_ONE_FOUND ONE_FOUND}</li>
  * <li>{@linkplain RioPacket#STATUS_TWO_FOUND TWO_FOUND}</li>
+ * <li>{@linkplain RioPacket#STATUS_THREE_FOUND THREE_FOUND}</li>
+ * <li>{@linkplain RioPacket#STATUS_FOUR_FOUND FOUR_FOUND}</li>
+ * <li>{@linkplain RioPacket#STATUS_FIVE_FOUND FIVE_FOUND}</li>
+ * <li>{@linkplain RioPacket#STATUS_SIX_FOUND SIX_FOUND}</li>
  * <li>{@linkplain RioPacket#STATUS_ERROR ERROR}</li>
  * </ol>
  * All other status codes are reserved for future use.
