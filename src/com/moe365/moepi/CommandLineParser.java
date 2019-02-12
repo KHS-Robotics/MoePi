@@ -156,6 +156,8 @@ public class CommandLineParser implements Serializable, Function<String[], Parse
 			// Version
 			.addFlag("--version", "Print the version string and exits.")
 			.alias("-v", "--version")
+			// Verbosity
+			.addFlag("--verbose", "Enables verbosity (prints image processor results).")
 			// Testing
 			.addKvPair("--test", "target", "Run test by name. Tests include 'controls', 'client', 'processing' and 'sse'. For 'processing' see --test-images.")
 			.addKvPair("--test-images", "images", "Directory of test images to use when running --test processing.")
