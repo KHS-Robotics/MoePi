@@ -77,7 +77,7 @@ task writeExecuteScript() {
   doLast {
     def runFile = new File("${buildDir}/run${projectName}")
     runFile.setExecutable true
-    runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar"
+    runFile.write "java -Djava.library.path=. -jar ${projectName}-all.jar --verbose"
   }
 }
 
