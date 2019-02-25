@@ -14,7 +14,7 @@ import com.moe365.moepi.geom.TargetType;
  * <section id="header">
  * <h2>Packet header format</h2>
  * <pre>
- *  0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
+ * &nbsp;&nbsp;0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * |                          Sequence Number                      |
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -40,19 +40,19 @@ import com.moe365.moepi.geom.TargetType;
  * <section id="statusCodes">
  * <h3>Status Codes</h3>
  * A status code may be one of the following:
- * <ol start="0">
- * <li>{@linkplain RioPacket#STATUS_NOP NOP}</li>
- * <li>{@linkplain RioPacket#STATUS_HELLO_WORLD HELLO_WORLD}</li>
- * <li>{@linkplain RioPacket#STATUS_GOODBYE GOODBYE}</li>
- * <li>{@linkplain RioPacket#STATUS_NONE_FOUND NONE_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_ONE_FOUND ONE_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_TWO_FOUND TWO_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_THREE_FOUND THREE_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_FOUR_FOUND FOUR_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_FIVE_FOUND FIVE_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_SIX_FOUND SIX_FOUND}</li>
- * <li>{@linkplain RioPacket#STATUS_ERROR ERROR}</li>
- * </ol>
+ * <ul>
+ * <li>{@linkplain RioPacket#STATUS_NOP NOP} = 0</li>
+ * <li>{@linkplain RioPacket#STATUS_NONE_FOUND NONE_FOUND} = 1</li>
+ * <li>{@linkplain RioPacket#STATUS_ONE_FOUND ONE_FOUND} = 2</li>
+ * <li>{@linkplain RioPacket#STATUS_TWO_FOUND TWO_FOUND} = 3</li>
+ * <li>{@linkplain RioPacket#STATUS_THREE_FOUND THREE_FOUND} = 4</li>
+ * <li>{@linkplain RioPacket#STATUS_FOUR_FOUND FOUR_FOUND} = 5</li>
+ * <li>{@linkplain RioPacket#STATUS_FIVE_FOUND FIVE_FOUND} = 6</li>
+ * <li>{@linkplain RioPacket#STATUS_SIX_FOUND SIX_FOUND} = 7</li>
+ * <li>{@linkplain RioPacket#STATUS_ERROR ERROR} = 0x8000</li>
+ * <li>{@linkplain RioPacket#STATUS_HELLO_WORLD HELLO_WORLD} = 0x8001</li>
+ * <li>{@linkplain RioPacket#STATUS_GOODBYE GOODBYE} = 0x8002</li>
+ * </ul>
  * All other status codes are reserved for future use.
  * </section>
  * <section id="flags">
@@ -97,7 +97,8 @@ public interface RioClient extends Closeable {
 	public static final int RIO_PORT = 5810;
 	public static final boolean PREFER_IP6 = true;
 	/**
-	 * Size of the buffer.
+	 * <p>Size of the buffer in the bytes.</p>
+	 * header + payload = 1 integer + 1 short + 30 doubles = 4 bytes + 2 bytes + 30*(8 bytes) = 246 bytes
 	 */
 	public static final int BUFFER_SIZE = 246;
 	public static final int RESOLVE_RETRY_TIME = 5_000;
