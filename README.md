@@ -1,5 +1,5 @@
 # MoePi
-Vision processing software for the retroreflective for the Raspberry Pi 3 using Java utilizing Pi4J and V4L4J communicating over UDP for the FIRST Robotics Competition (FRC).
+Vision processing software for the retroreflective tape for the Raspberry Pi 3 using Java utilizing Pi4J and V4L4J communicating over UDP for the FIRST Robotics Competition (FRC).
 
 ## Big Thanks to MOE 365!
 Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.
