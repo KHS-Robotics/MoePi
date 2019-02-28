@@ -12,7 +12,7 @@ import com.moe365.moepi.geom.TargetType;
  * <p>
  * 
  * <section id="header">
- * <h2>Packet header format</h2>
+ * <h2>Packet Header</h2>
  * <pre>
  * &nbsp;&nbsp;0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7 0 1 2 3 4 5 6 7
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -22,16 +22,16 @@ import com.moe365.moepi.geom.TargetType;
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
  * </pre>
  * <dl>
- * <dt>Sequence Number</dt>
+ * <dt><strong>Sequence Number</strong></dt>
  * <dd>32-bit packet number, always increasing. If packet A is received with a
- * sequence number of 5, then all future packets with sequence numbers under 5
- * may be discarded. Because this field is not assured to be consecutive, unix
- * (or other) timestamps may be used, assuming no consecutive packets are sent
- * within the same lowest resolution time unit. 
+ * sequence number of 5, for example, then all future packets with sequence
+ * numbers under 5 may be discarded. Because this field is not assured to be
+ * consecutive, unix (or other) timestamps may be used, assuming no consecutive
+ * packets are sent within the same lowest resolution time unit.
  * </dd>
- * <dt>Status code</dt>
+ * <dt><strong>Status code</strong></dt>
  * <dd>16-bit code indicating the intent of the packet. See <a href="#statusCodes">Status Codes</a>.</dd>
- * <dt>Flag</dt>
+ * <dt><strong>Flag</strong></dt>
  * <dd>8-bit secondary status code, it is used for stuff like QOS. If unused,
  * set to 0. See <a href="#flags">Flags</a>.
  * </dd>
@@ -41,17 +41,17 @@ import com.moe365.moepi.geom.TargetType;
  * <h3>Status Codes</h3>
  * A status code may be one of the following:
  * <ul>
- * <li>{@linkplain RioPacket#STATUS_NOP NOP} = 0</li>
- * <li>{@linkplain RioPacket#STATUS_NONE_FOUND NONE_FOUND} = 1</li>
- * <li>{@linkplain RioPacket#STATUS_ONE_FOUND ONE_FOUND} = 2</li>
- * <li>{@linkplain RioPacket#STATUS_TWO_FOUND TWO_FOUND} = 3</li>
- * <li>{@linkplain RioPacket#STATUS_THREE_FOUND THREE_FOUND} = 4</li>
- * <li>{@linkplain RioPacket#STATUS_FOUR_FOUND FOUR_FOUND} = 5</li>
- * <li>{@linkplain RioPacket#STATUS_FIVE_FOUND FIVE_FOUND} = 6</li>
- * <li>{@linkplain RioPacket#STATUS_SIX_FOUND SIX_FOUND} = 7</li>
- * <li>{@linkplain RioPacket#STATUS_ERROR ERROR} = 0x8000</li>
- * <li>{@linkplain RioPacket#STATUS_HELLO_WORLD HELLO_WORLD} = 0x8001</li>
- * <li>{@linkplain RioPacket#STATUS_GOODBYE GOODBYE} = 0x8002</li>
+ * <li>{@linkplain RioPacket#STATUS_NOP NOP}: 0</li>
+ * <li>{@linkplain RioPacket#STATUS_NONE_FOUND NONE_FOUND}: 1</li>
+ * <li>{@linkplain RioPacket#STATUS_ONE_FOUND ONE_FOUND}: 2</li>
+ * <li>{@linkplain RioPacket#STATUS_TWO_FOUND TWO_FOUND}: 3</li>
+ * <li>{@linkplain RioPacket#STATUS_THREE_FOUND THREE_FOUND}: 4</li>
+ * <li>{@linkplain RioPacket#STATUS_FOUR_FOUND FOUR_FOUND}: 5</li>
+ * <li>{@linkplain RioPacket#STATUS_FIVE_FOUND FIVE_FOUND}: 6</li>
+ * <li>{@linkplain RioPacket#STATUS_SIX_FOUND SIX_FOUND}: 7</li>
+ * <li>{@linkplain RioPacket#STATUS_ERROR ERROR}: 0x8000</li>
+ * <li>{@linkplain RioPacket#STATUS_HELLO_WORLD HELLO_WORLD}: 0x8001</li>
+ * <li>{@linkplain RioPacket#STATUS_GOODBYE GOODBYE}: 0x8002</li>
  * </ul>
  * All other status codes are reserved for future use.
  * </section>
