@@ -11,7 +11,7 @@ See [this README](https://github.com/MOERobotics/stronghold-pi-2016/blob/master/
 1. Raspberry Pi 3 Model B/B+ running [Raspbian Stretch](https://www.raspberrypi.org/downloads/raspbian/) and Java 8 (via `sudo apt-get update` then `sudo apt-get install -y openjdk-8-jdk`)
 2. Internet Connection for the Pi (initially, for `install_dependencies.sh` and the first `./gradlew build`)
 3. USB Camera (tested with [Microsoft LifeCam HD-3000](https://www.amazon.com/Microsoft-3364820-LifeCam-HD-3000/dp/B008ZVRAQS))
-4. [LED Halo (Green, tested with 60mm)](https://www.superbrightleds.com/moreinfo/led-halo-rings/led-halo-angel-eye-headlight-accent-lights/49/307/)
+4. [Green LED Halo (tested with 60mm)](https://www.superbrightleds.com/moreinfo/led-halo-rings/led-halo-angel-eye-headlight-accent-lights/49/307/)
 5. [MOSFET](https://www.amazon.com/WINGONEER-IRF520-MOSFET-Driver-Module/dp/B06XHH1TQM) to control the LED Halo
 6. [3M Scotchlite Reflective Tape 8830](https://www.andymark.com/products/reflective-material-3m-2-in-wide-x-21-5-adhesive-backed)
 
