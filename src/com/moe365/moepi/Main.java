@@ -56,7 +56,11 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  * Main Class
  */
 public class Main {
-	public static final String VERSION = "1.7.1";
+	// Version
+	public static final String VERSION = "1.7.2";
+
+	// New Line
+	private static final String NEW_LINE = System.lineSeparator();
 
 	// DEFAULTS - TARGET WIDTH/HEIGHT - for Destination Deep Space
 	private static final int DEFAULT_TARGET_WIDTH = 16;
@@ -461,12 +465,26 @@ public class Main {
 			processor = new ImageProcessor(width, height, targetWidth, targetHeight, maxZeros, saveDiff, saveDir, rectangles -> {
 				try {
 					if(verbose) {
-						System.out.println(System.lineSeparator()+"--------------------------------------------------------------------------------------------");
-						System.out.println("Num Targets: " + rectangles.size());
-						for(int i = 0; i < rectangles.size(); i++) {
-							System.out.println("Target " + (i+1) + ": " + rectangles.get(i));
+						String strToPrint = 
+							NEW_LINE 
+							+ "--------------------------------------------------------------------------------------------" 
+							+ NEW_LINE;
+
+						if(!rectangles.isEmpty()) {
+							strToPrint += "Num Targets: " + rectangles.size() + NEW_LINE;
+
+							for(int i = 0; i < rectangles.size(); i++) {
+								strToPrint += "Target " + (i+1) + ": " + rectangles.get(i) + NEW_LINE;
+							}
+						} else {
+							strToPrint += "No Targets Found." + NEW_LINE;
 						}
-						System.out.println("--------------------------------------------------------------------------------------------"+System.lineSeparator());
+
+						strToPrint += 
+							"--------------------------------------------------------------------------------------------" 
+							+ NEW_LINE;
+
+						System.out.println(strToPrint);
 					}
 
 					if (rioClient != null) {
