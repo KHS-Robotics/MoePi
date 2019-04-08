@@ -1,6 +1,9 @@
 # MoePi
 Vision software for processing retroreflective tape on a Raspberry Pi 3 using Java utilizing Pi4J and V4L4J communicating over UDP for the FIRST Robotics Competition (FRC).
 
+## Support for Destination Deep Space 2019
+The code has been modified to include rejection math for left/right Destination Deep Space targets.
+
 ## Big Thanks to MOE 365!
 Everything under [moe.js/](https://github.com/MOERobotics/moe.js) and [src/](https://github.com/MOERobotics/stronghold-pi-2016) belong to [MOE](http://moe365.org/) with only slight modifications from us.
 
