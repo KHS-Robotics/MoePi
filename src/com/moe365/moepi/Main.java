@@ -21,7 +21,6 @@ import javax.imageio.ImageIO;
 import com.moe365.moepi.geom.Polygon;
 import com.moe365.moepi.geom.PreciseRectangle;
 import com.moe365.moepi.geom.Polygon.PointNode;
-import com.moe365.moepi.geom.TargetType;
 import com.moe365.moepi.net.MPHttpServer;
 import com.moe365.moepi.processing.AbstractImageProcessor;
 import com.moe365.moepi.processing.ContourTracer;
@@ -458,11 +457,9 @@ public class Main {
 			final int targetHeight = args.getOrDefault("--target-height", DEFAULT_TARGET_HEIGHT);
 			System.out.println("Target Dimensions: " + targetWidth + "x" + targetHeight);
 
-			final int maxZeros = args.getOrDefault("--max-zeros", ImageProcessor.DEFAULT_MAX_ZEROS_IN_A_ROW);
-
 			final boolean verbose = args.isFlagSet("--verbose");
 
-			processor = new ImageProcessor(width, height, targetWidth, targetHeight, maxZeros, saveDiff, saveDir, rectangles -> {
+			processor = new ImageProcessor(width, height, targetWidth, targetHeight, saveDiff, saveDir, rectangles -> {
 				try {
 					if(verbose) {
 						String strToPrint = 
@@ -606,12 +603,12 @@ public class Main {
   	protected static void testClient(final RioClient client) throws IOException, InterruptedException {
 		System.out.println("RUNNING TEST :: CLIENT");
 
-		PreciseRectangle r1 = new PreciseRectangle(1.0, 2.0, 3.0, 4.0, TargetType.LEFT);
-		PreciseRectangle r2 = new PreciseRectangle(5.0, 6.0, 7.0, 8.0, TargetType.RIGHT);
-		PreciseRectangle r3 = new PreciseRectangle(9.0, 10.0, 11.0, 12.0, TargetType.LEFT);
-		PreciseRectangle r4 = new PreciseRectangle(13.0, 14.0, 15.0, 16.0, TargetType.RIGHT);
-		PreciseRectangle r5 = new PreciseRectangle(17.0, 18.0, 19.0, 20.0, TargetType.LEFT);
-		PreciseRectangle r6 = new PreciseRectangle(21.0, 22.0, 23.0, 24.0, TargetType.RIGHT);
+		PreciseRectangle r1 = new PreciseRectangle(1.0, 2.0, 3.0, 4.0);
+		PreciseRectangle r2 = new PreciseRectangle(5.0, 6.0, 7.0, 8.0);
+		PreciseRectangle r3 = new PreciseRectangle(9.0, 10.0, 11.0, 12.0);
+		PreciseRectangle r4 = new PreciseRectangle(13.0, 14.0, 15.0, 16.0);
+		PreciseRectangle r5 = new PreciseRectangle(17.0, 18.0, 19.0, 20.0);
+		PreciseRectangle r6 = new PreciseRectangle(21.0, 22.0, 23.0, 24.0);
 
 		// just spews out UDP packets
 		while (true) {
@@ -668,11 +665,14 @@ public class Main {
 			BufferedImage out = ((DebuggingDiffGenerator)processor.diff).imgFlt;
 			System.out.println("Found rectangles " + rectangles);
 			
-			Color leftTargetColor = Color.RED, rightTargetColor = Color.BLUE;
+			int i = 0;
+			Color[] colors = {
+				Color.RED, Color.BLUE, Color.PINK, Color.YELLOW, Color.ORANGE, Color.CYAN
+			};
 			Graphics2D g = out.createGraphics();
 			for (PreciseRectangle rect : rectangles) {
 				// draw left targets red, right targets blue
-				g.setColor(rect.getTargetType().isLeft() ? leftTargetColor : rightTargetColor);
+				g.setColor(colors[i % colors.length]);
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
 			}
 			g.dispose();

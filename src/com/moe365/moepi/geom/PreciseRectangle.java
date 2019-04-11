@@ -19,7 +19,6 @@ import com.moe365.moepi.util.ReflectionUtils;
  */
 public class PreciseRectangle implements Externalizable {
 	protected final double x, y, width, height;
-	private TargetType targetType;
 	protected transient int hash = 0;
 	
 	public static Function<PreciseRectangle, PreciseRectangle> scalar(double xf, double yf, double wf, double hf) {
@@ -30,27 +29,18 @@ public class PreciseRectangle implements Externalizable {
 	 * For deserializing
 	 */
 	protected PreciseRectangle() {
-		this(0, 0, 0, 0, TargetType.NONE);
-	}
-	
-	public PreciseRectangle(double x, double y, double width, double height) {
-		this(x, y, width, height, TargetType.NONE);
+		this(0, 0, 0, 0);
 	}
 
 	public PreciseRectangle(Rectangle rect) {
-		this(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), TargetType.NONE);
-	}
-
-	public PreciseRectangle(Rectangle rect, TargetType type) {
-		this(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), type);
+		this(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 	}
 	
-	public PreciseRectangle(double x, double y, double width, double height, TargetType type) {
+	public PreciseRectangle(double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.targetType = type;
 	}
 	
 	/**
@@ -92,14 +82,6 @@ public class PreciseRectangle implements Externalizable {
 	public double getArea() {
 		return width * height;
 	}
-
-	public TargetType getTargetType() {
-		return targetType;
-	}
-
-	public void setTargetType(TargetType type) {
-		this.targetType = type;
-	}
 	
 	/**
 	 * Scale the width and height by a given factor. The top-left corner is not
@@ -110,7 +92,7 @@ public class PreciseRectangle implements Externalizable {
 	 * @return the scaled rectangle
 	 */
 	public PreciseRectangle scale(double factor) {
-		return new PreciseRectangle(x, y, width * factor, height * factor, targetType);
+		return new PreciseRectangle(x, y, width * factor, height * factor);
 	}
 	
 	/**
@@ -127,7 +109,7 @@ public class PreciseRectangle implements Externalizable {
 	 * @return scaled rectangle
 	 */
 	public PreciseRectangle scale(double xf, double yf, double wf, double hf) {
-		return new PreciseRectangle(x * xf, y * yf, width * wf, height * hf, targetType);
+		return new PreciseRectangle(x * xf, y * yf, width * wf, height * hf);
 	}
 	
 	public static class PreciseRectangleAreaComparator implements Comparator<PreciseRectangle> {
@@ -152,8 +134,7 @@ public class PreciseRectangle implements Externalizable {
 	
 	@Override
 	public String toString() {
-		return new StringBuilder("[")
-				.append(getTargetType()).append(", (")
+		return new StringBuilder("[(")
 				.append(getX()).append(", ")
 				.append(getY()).append("), ")
 				.append(getWidth()).append('x')
@@ -180,6 +161,5 @@ public class PreciseRectangle implements Externalizable {
 		out.writeDouble(getY());
 		out.writeDouble(getWidth());
 		out.writeDouble(getHeight());
-		out.writeDouble((double) getTargetType().getType());
 	}
 }

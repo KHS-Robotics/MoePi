@@ -3,18 +3,17 @@ package com.moe365.moepi.client.packets;
 import java.nio.ByteBuffer;
 
 import com.moe365.moepi.geom.PreciseRectangle;
-import com.moe365.moepi.geom.TargetType;
 
 public class ThreeFoundRioPacket implements RioPacket {
     private final PreciseRectangle rect1, rect2, rect3;
 
-    public ThreeFoundRioPacket(double left1, double top1, double width1, double height1, TargetType type1, 
-                            double left2, double top2, double width2, double height2, TargetType type2, 
-                            double left3, double top3, double width3, double height3, TargetType type3) {
+    public ThreeFoundRioPacket(double left1, double top1, double width1, double height1, 
+                            double left2, double top2, double width2, double height2, 
+                            double left3, double top3, double width3, double height3) {
 		this(
-            new PreciseRectangle(left1, top1, width1, height1, type1), 
-            new PreciseRectangle(left2, top2, width2, height2, type2),
-            new PreciseRectangle(left3, top3, width3, height3, type3)
+            new PreciseRectangle(left1, top1, width1, height1), 
+            new PreciseRectangle(left2, top2, width2, height2),
+            new PreciseRectangle(left3, top3, width3, height3)
         );
 	}
 
@@ -31,8 +30,8 @@ public class ThreeFoundRioPacket implements RioPacket {
 
     @Override
     public int getLength() {
-        // 15 doubles
-        return 15 * Double.BYTES;
+        // 12 doubles
+        return 12 * Double.BYTES;
     }
 
     @Override
@@ -41,18 +40,15 @@ public class ThreeFoundRioPacket implements RioPacket {
 		buffer.putDouble(this.rect1.getY());
 		buffer.putDouble(this.rect1.getWidth());
 		buffer.putDouble(this.rect1.getHeight());
-		buffer.putDouble((double) this.rect1.getTargetType().getType());
 		
 		buffer.putDouble(this.rect2.getX());
 		buffer.putDouble(this.rect2.getY());
 		buffer.putDouble(this.rect2.getWidth());
 		buffer.putDouble(this.rect2.getHeight());
-        buffer.putDouble((double) this.rect2.getTargetType().getType());
         
         buffer.putDouble(this.rect3.getX());
 		buffer.putDouble(this.rect3.getY());
 		buffer.putDouble(this.rect3.getWidth());
 		buffer.putDouble(this.rect3.getHeight());
-		buffer.putDouble((double) this.rect3.getTargetType().getType());
     }
 }

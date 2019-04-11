@@ -3,20 +3,19 @@ package com.moe365.moepi.client.packets;
 import java.nio.ByteBuffer;
 
 import com.moe365.moepi.geom.PreciseRectangle;
-import com.moe365.moepi.geom.TargetType;
 
 public class FourFoundRioPacket implements RioPacket {
     private final PreciseRectangle rect1, rect2, rect3, rect4;
 
-    public FourFoundRioPacket(double left1, double top1, double width1, double height1, TargetType type1, 
-                            double left2, double top2, double width2, double height2, TargetType type2, 
-                            double left3, double top3, double width3, double height3, TargetType type3,
-                            double left4, double top4, double width4, double height4, TargetType type4) {
+    public FourFoundRioPacket(double left1, double top1, double width1, double height1, 
+                            double left2, double top2, double width2, double height2, 
+                            double left3, double top3, double width3, double height3,
+                            double left4, double top4, double width4, double height4) {
 		this(
-            new PreciseRectangle(left1, top1, width1, height1, type1), 
-            new PreciseRectangle(left2, top2, width2, height2, type2),
-            new PreciseRectangle(left3, top3, width3, height3, type3),
-            new PreciseRectangle(left4, top4, width4, height4, type4)
+            new PreciseRectangle(left1, top1, width1, height1), 
+            new PreciseRectangle(left2, top2, width2, height2),
+            new PreciseRectangle(left3, top3, width3, height3),
+            new PreciseRectangle(left4, top4, width4, height4)
         );
 	}
 
@@ -34,8 +33,8 @@ public class FourFoundRioPacket implements RioPacket {
 
     @Override
     public int getLength() {
-        // 20 doubles
-        return 20 * Double.BYTES;
+        // 16 doubles
+        return 16 * Double.BYTES;
     }
 
     @Override
@@ -44,24 +43,20 @@ public class FourFoundRioPacket implements RioPacket {
 		buffer.putDouble(this.rect1.getY());
 		buffer.putDouble(this.rect1.getWidth());
 		buffer.putDouble(this.rect1.getHeight());
-		buffer.putDouble((double) this.rect1.getTargetType().getType());
 		
 		buffer.putDouble(this.rect2.getX());
 		buffer.putDouble(this.rect2.getY());
 		buffer.putDouble(this.rect2.getWidth());
 		buffer.putDouble(this.rect2.getHeight());
-        buffer.putDouble((double) this.rect2.getTargetType().getType());
         
         buffer.putDouble(this.rect3.getX());
 		buffer.putDouble(this.rect3.getY());
 		buffer.putDouble(this.rect3.getWidth());
 		buffer.putDouble(this.rect3.getHeight());
-        buffer.putDouble((double) this.rect3.getTargetType().getType());
         
         buffer.putDouble(this.rect4.getX());
 		buffer.putDouble(this.rect4.getY());
 		buffer.putDouble(this.rect4.getWidth());
 		buffer.putDouble(this.rect4.getHeight());
-		buffer.putDouble((double) this.rect4.getTargetType().getType());
     }
 }
