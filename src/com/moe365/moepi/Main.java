@@ -674,6 +674,7 @@ public class Main {
 				// draw left targets red, right targets blue
 				g.setColor(colors[i % colors.length]);
 				g.drawRect((int)(rect.getX() * width), (int) (rect.getY() * height), (int) (rect.getWidth() * width), (int) (rect.getHeight() * height));
+				i++;
 			}
 			g.dispose();
 
