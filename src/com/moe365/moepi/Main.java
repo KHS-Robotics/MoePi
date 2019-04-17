@@ -56,14 +56,14 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  */
 public class Main {
 	// Version
-	public static final String VERSION = "1.7.2";
+	public static final String VERSION = "1.8.0";
 
 	// New Line
 	private static final String NEW_LINE = System.lineSeparator();
 
-	// DEFAULTS - TARGET WIDTH/HEIGHT - for Destination Deep Space
-	private static final int DEFAULT_TARGET_WIDTH = 16;
-	private static final int DEFAULT_TARGET_HEIGHT = 24;
+	// DEFAULTS - MININMUM TARGET WIDTH/HEIGHT
+	private static final int DEFAULT_TARGET_WIDTH = 20;
+	private static final int DEFAULT_TARGET_HEIGHT = 20;
 
 	// DEFAULTS - GPIO
 	private static final Pin DEFAULT_PIN = RaspiPin.GPIO_00; // GPIO Pin 0
@@ -71,8 +71,8 @@ public class Main {
 	private static final PinState DEFAULT_PIN_STATE = PinState.LOW; // off
 
 	// DEFAULTS - CAMERA WIDTH/HEIGHT
-	private static final int DEFAULT_WIDTH = 640;
-	private static final int DEFAULT_HEIGHT = 480;
+	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_HEIGHT = 240;
   
 	static {
 		// Print java.library.path
