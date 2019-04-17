@@ -199,3 +199,5 @@ gradle-app.setting
 output/
 
 .classpath
+.DS_Store
+thumbs.db
