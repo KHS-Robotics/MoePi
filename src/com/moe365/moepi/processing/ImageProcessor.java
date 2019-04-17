@@ -18,14 +18,13 @@ import au.edu.jcu.v4l4j.VideoFrame;
 import au.edu.jcu.v4l4j.exceptions.UnsupportedMethod;
 
 /**
- * 
+ * Image Processor
  * @author mailmindlin
  * @see DiffGenerator
- * @see com.moe365.moepi.processing.LazyDiffGenerator LazyDiffGenerator
  */
 public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle>> {
 	public static final int DEFAULT_TOLERANCE = 70;
-	public static final int DEFAULT_MAX_ZEROS_IN_A_ROW = 4;
+	public static final int DEFAULT_MAX_ZEROS_IN_A_ROW = 3;
 
 	private final int maxZerosInARow; // for rejection math, how many x'(y) = 0 in a row constitutes a box
 	
@@ -56,7 +55,6 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 	public ImageProcessor(int frameWidth, int frameHeight, int minBlobWidth, int minBlobHeight, int maxZerosInARow, boolean saveDiff, String saveLoc, Consumer<List<PreciseRectangle>> handler) {
 		super(0, 0, frameWidth, frameHeight, handler);
 		
-//		this.diff = new LazyDiffGenerator(0, 0, frameWidth, frameHeight, DEFAULT_TOLERANCE);
 		if (saveDiff) {
 			if(saveLoc == null) {
 				saveLoc = "img";
@@ -199,7 +197,11 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 	}
 	
 	public List<PreciseRectangle> apply(BufferedImage onImg, BufferedImage offImg) {
-		// TODO maybe add null check for images
+		if(onImg == null)
+			throw new NullPointerException("onImg is null");
+		if(offImg == null)
+			throw new NullPointerException("offImg is null");
+
 		BinaryImage result = this.diff.apply(onImg, offImg);
 		
 		if (result == null)
@@ -231,7 +233,7 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 
 			final int yStart = (int) Math.ceil(box.getY()) + 1;
 			final int xStart = (int) Math.ceil(box.getX());
-			final int yMax = (int) Math.ceil(box.getHeight() / 4.0) + yStart;
+			final int yMax = (int) Math.ceil(box.getHeight()*0.75) + yStart;
 			final int xMax = (int) Math.ceil(box.getWidth()) + xStart;
 
 			// List<Integer> xs = new ArrayList<>(yMax - yStart), xPrimes = new ArrayList<>(yMax - yStart); // for debugging
@@ -333,8 +335,8 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 			}
 
 			// For debugging
-			// System.out.println("f(y) = " + xs);
-			// System.out.println("f'(y) = " + xPrimes);
+			// System.out.println("x(y) = " + xs);
+			// System.out.println("x'(y) = " + xPrimes);
 			// System.out.println("Left Score: " + leftScore);
 			// System.out.println("Right Score: " + rightScore);
 			// System.out.println("Box Score: " + boxScore);
@@ -350,9 +352,9 @@ public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle
 					box.setTargetType(TargetType.RIGHT);
 					processed.add(box);
 				}
-				// else {
-				// 	System.out.println("REJECTED reason3: proper target criteria not met");
-				// }
+			// 	else {
+			// 		System.out.println("REJECTED reason3: proper target criteria not met");
+			// 	}
 			// } else {
 			// 	System.out.println("REJECTED reason2: absurd delta");
 			}

@@ -12,7 +12,6 @@ import java.util.function.BiFunction;
  * </p>
  * @author mailmindlin
  * @see DebuggingDiffGenerator
- * @see LazyDiffGenerator
  */
 public class DiffGenerator implements BiFunction<BufferedImage, BufferedImage, BinaryImage> {
 	protected final int frameMinX, frameMaxX, frameMinY, frameMaxY;

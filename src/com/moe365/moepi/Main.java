@@ -57,14 +57,14 @@ import au.edu.jcu.v4l4j.exceptions.V4L4JException;
  */
 public class Main {
 	// Version
-	public static final String VERSION = "1.7.2-2019";
+	public static final String VERSION = "1.8.0-2019";
 
 	// New Line
 	private static final String NEW_LINE = System.lineSeparator();
 
 	// DEFAULTS - TARGET WIDTH/HEIGHT - for Destination Deep Space
-	private static final int DEFAULT_TARGET_WIDTH = 16;
-	private static final int DEFAULT_TARGET_HEIGHT = 24;
+	private static final int DEFAULT_TARGET_WIDTH = 4;
+	private static final int DEFAULT_TARGET_HEIGHT = 6;
 
 	// DEFAULTS - GPIO
 	private static final Pin DEFAULT_PIN = RaspiPin.GPIO_00; // GPIO Pin 0
@@ -72,8 +72,8 @@ public class Main {
 	private static final PinState DEFAULT_PIN_STATE = PinState.LOW; // off
 
 	// DEFAULTS - CAMERA WIDTH/HEIGHT
-	private static final int DEFAULT_WIDTH = 640;
-	private static final int DEFAULT_HEIGHT = 480;
+	private static final int DEFAULT_WIDTH = 160;
+	private static final int DEFAULT_HEIGHT = 120;
   
 	static {
 		// Print java.library.path
@@ -175,7 +175,7 @@ public class Main {
 
 				final AtomicBoolean ledState = new AtomicBoolean(false);
 				final AtomicLong ledUpdateTimestamp = new AtomicLong(0);
-				final int gpioDelay = parsed.getOrDefault("--gpio-delay", -5000);
+				final int gpioDelay = parsed.getOrDefault("--gpio-delay", -10000);
 
 				frameGrabber.setCaptureCallback(new CaptureCallback() {
 					@Override
