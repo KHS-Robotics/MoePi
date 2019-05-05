@@ -24,7 +24,7 @@ import au.edu.jcu.v4l4j.exceptions.UnsupportedMethod;
  */
 public class ImageProcessor extends AbstractImageProcessor<List<PreciseRectangle>> {
 	public static final int DEFAULT_TOLERANCE = 70;
-	public static final int DEFAULT_MAX_ZEROS_IN_A_ROW = 3;
+	public static final int DEFAULT_MAX_ZEROS_IN_A_ROW = 1;
 
 	private final int maxZerosInARow; // for rejection math, how many x'(y) = 0 in a row constitutes a box
 	
